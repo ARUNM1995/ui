@@ -1,0 +1,69 @@
+div.stars {
+	width: 200px;
+	display: inline-block;
+}
+
+input.star {
+	display: none;
+}
+
+label.star {
+	float: right;
+	padding: 1px;
+	font-size: 36px;
+	color: #444;
+	transition: all .2s;
+}
+
+input.star:checked ~ label.star:before {
+	content: '\2605';
+	color: #FD4;
+	transition: all .25s;
+}
+
+input.star-5:checked ~ label.star:before {
+	color: #FE7;
+	text-shadow: 0 0 20px #952;
+}
+
+input.star-1:checked ~ label.star:before {
+	color: #F62;
+}
+
+label.star:before {
+	content: '\2605';
+}
+#modal-body {
+	background-image: url(img/feedback.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+#chartdiv {
+	width: 95%;
+	height: 135px;
+}
+
+.checked {
+	color: orange
+}
+
+.unchecked {
+	color: gray
+}
+
+#finaloverallavg {
+	margin-left: 13px;
+}
+
+button {
+	margin-top: 5px;
+}
+
+#myRating {
+	margin-top: 0px;
+}
+
+#finalratingimage {
+	margin-top: 10px;
+}

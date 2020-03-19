@@ -1,0 +1,458 @@
+<div class="row">
+  <div class="col-lg-12 mb-4">
+    <div class="breadcrumb">
+      <h4 style="font-weight: bolder" class="mt-2">
+        <i class="fa fa-bar-chart"></i>&nbsp;
+        Exercise / Plan:{{selectedPlanYear}}
+      </h4>
+      <div class="top-rigth-icons ml-auto">
+        <div class="input-group-append">
+          <span>
+
+            <div class="input-group-prepend dropleft infocheck">
+              <button aria-expanded="false" aria-haspopup="true" class="btn btn-secondary 
+                           dropdown-toggle infocheckbgcolr" data-toggle="dropdown" type="button">
+                {{selectedPlanYear}}
+              </button>
+              <div class="dropdown-menu" x-placement="right-start" style="position: absolute; 
+                        will-change: transform; 
+                        top: 0px; left: 0px; 
+                        transform: translate3d(95px, 0px, 0px);">
+                <a class="dropdown-item" href="javascript:void(0);" *ngFor="let plan of plans"
+                  (click)="getPlanByStartYear(plan.year)">
+                  {{plan.year}}
+                </a>
+              </div>
+            </div>
+            <h6 class="infocheck ml-4">Plan</h6>
+          </span>&nbsp;&nbsp;
+          <!-- <span tourAnchor="exercise02" title="Initiate Monetization" (click)="openModal(modelMonitization)">
+            <a>
+              &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+              <i class="fa fa-2x fa-toggle-up infocheck"></i>
+            </a>
+            <h6 class="infocheck">Monetization</h6>
+          </span>&nbsp;&nbsp; -->
+          <span title="Click to upload FMV" tourAnchor="exercise03">
+            <div class="form-group">
+              <div class="input-group file-upload">
+                <input type="file" (change)="incomingfile($event,modelFareMarketValueSuccess)" #input class="file-upload-btn" />
+                <span class="input-group-append">
+                  &nbsp;&nbsp;&nbsp;
+                  <button class="btn btn-primary btn-sm mr-1 btntestinfo">
+                    <i class="fa fa-1x  fa-money"></i>
+                  </button>
+                </span>
+              </div>
+              <h6 class="infocheck">Upload FMV</h6>
+            </div>
+          </span>&nbsp;&nbsp;
+          <span tourAnchor="exercise05" title="Click to approve exercise "
+            (click)="approveExercisedOptions(exerciseSucessPopup)">
+            <a>
+              &nbsp;<i class="fa fa-2x fa-check-square-o infocheck"></i>
+            </a>
+            <h6 class="infocheck">Approve</h6>
+          </span>&nbsp;
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="input-group mb-2">
+  <span class="input-group-prepend">
+    <span class="input-group-text">
+      <i class="fa fa-search"></i>
+    </span>
+  </span>
+  <input class="form-control" type="text" placeholder="Type to filter the name column..."
+    (keyup)="updateFilter($event)" />
+</div>
+<div class="row">
+  <div class="col-lg-12">
+
+
+    <ngx-datatable #table class="material" [headerHeight]="90" [limit]="10" [columnMode]="'force'" [footerHeight]="50"
+      [rowHeight]="44" [rows]="rows2" [loadingIndicator]="loadingIndicator" [selected]="selected2"
+      [selectionType]="'checkbox'" (select)='onSelect($event)'>
+
+
+      <!-- Row Detail Template -->
+      <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow>
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <div style="padding-left:35px;margin-left: 20%;margin-right: 20%;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Employee Number</th>
+                  <th>Entity</th>
+                  <th>Band</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{row.employeeNumber}}</td>
+                  <td>{{row.entity}}</td>
+                  <td>{{row.band}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-template>
+      </ngx-datatable-row-detail>
+
+
+      <!-- <ngx-datatable-column >
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+          <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+            title="Expand/Collapse Row" (click)="rowDetailsExpand(row)">
+          </a>
+        </ng-template>
+      </ngx-datatable-column> -->
+      <ngx-datatable-column name="Employee Name" [width]="220">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded"
+            title="Expand/Collapse Row" (click)="rowDetailsExpand(row)">
+          </a>{{row.fullName}}
+        </ng-template>
+      </ngx-datatable-column>
+
+
+
+      <ngx-datatable-column name="Employee Status">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <button class="btn btn-success btn-sm btn-rounded" *ngIf="value=='Active'"
+            style="min-width: 55px;font-size: 0.6rem;cursor: none;"> {{row.employeeStatus}}</button>
+          <button class="btn btn-danger btn-sm btn-rounded" *ngIf="value=='Resigned'"
+            style="min-width: 55px;font-size: 0.6rem;cursor: none;"> {{row.employeeStatus}}</button>
+
+        
+        </ng-template>
+      </ngx-datatable-column>
+
+
+
+      <ngx-datatable-column name="Grant Id" [width]="200">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          {{row.id}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Lockin" [width]="130">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+
+          <span *ngIf="row.lockInStatus == 'UNLOCKED'" title="Unlocked">
+
+            <i class="fa fa-2x fa-unlock" style="color: blue;"></i>
+
+          </span>
+          <span *ngIf="row.lockInStatus == 'LOCKED'" title="Locked">
+
+            <i class="fa fa-2x fa-lock" style="color: gray;"></i>
+
+          </span>
+        
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Grant Date" [width]="160">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          {{row.grantDate|date:'dd-MMM-yy'}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Grants" [width]="210">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          {{row.noOfGrants}}@{{row.grantPrice}}&nbsp;<i class="fa  fa-dollar"></i>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Allocation">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          {{row.allocated}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Vested Options">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          {{row.vestedOptions}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Available Options To Exercise">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          {{row.vestedOptions - row.exercisedOptions}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Exercised Options">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          {{row.exercisedOptions?value:0}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Available Options To Sell">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <!-- {{row.exercisedOptions - row.soldOptions - row.requestOptionsForSell}} -->
+          {{row.exercisedOptions - row.soldOptions}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Sold Options">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          {{row.soldOptions?row.soldOptions:0}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Pending For Approval" [width]="260">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <button style="background-color: #737CA1;cursor: none;font-size: 0.6rem;margin-bottom: 0%;margin-top: 0%;"
+            type="button" class="btn btn-primary btn-sm">
+            <h6 style="margin-bottom: 0%;margin-top: 0%;font-size: 0.7rem;">
+              {{row.requestForExercise?row.requestForExercise:0}}</h6>
+            Exercise
+          </button>
+          <button
+            style="background-color:#414A6F;min-width: 44px;cursor: none;font-size: 0.6rem;margin-bottom: 0%;margin-top: 0%;"
+            type="button" class="btn btn-primary btn-sm ml-1">
+            <h6 style="margin-bottom: 0%;margin-top: 0%;font-size: 0.7rem;">
+              {{row.requestOptionsForSell?row.requestOptionsForSell:0}}</h6>
+            Sell
+          </button>
+
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Exercised Date" [width]="160">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          {{row.exercisedDate|date:'dd-MMM-yy'}}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Fare Market Value">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          {{row.fareMarketValue}}
+        </ng-template>
+      </ngx-datatable-column>
+
+
+
+      <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false"
+        prop="status" [width]="50">
+        <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
+          let-selectFn="selectFn">
+          <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn"
+          let-value="value" let-row="row">
+          <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"
+            *ngIf="row.approvedDate==null">
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column>
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+          <a style="cursor: pointer;" (click)="deleteExerciseRequestConformation(row,deleteExerciseRequest)"><i
+              class="fa fa-trash"></i></a>
+        </ng-template>
+      </ngx-datatable-column>
+
+
+    </ngx-datatable>
+  </div>
+</div>
+
+<ng-template #deleteExerciseRequest id="deleteExerciseRequest">
+
+  <div class="modal-body bg-white">
+    <div class="row">
+      <div class="col-12 vertical-tabs">
+
+        <h6 class="alert alert-success top-navbar"><i class="fa fa-exclamation-circle"
+            style="font-weight: bolder"></i>&nbsp;
+          Are you sure you want to delete this Exercise Request?
+        </h6>
+        <table class="table">
+          <tr>
+            <td>Employee Number</td>
+            <td>{{tempDeleteExerciseRequest.employeeNumber}}</td>
+          </tr>
+          <tr>
+            <td>Vested Options</td>
+            <td>{{tempDeleteExerciseRequest.vestedOptions}}</td>
+          </tr>
+          <tr>
+            <td>To Exercise </td>
+            <td>{{tempDeleteExerciseRequest.requestForExercise}}</td>
+          </tr>
+
+          <tr>
+
+            <td>Remarks <span style="font: bolder;color: red;" *ngIf="isrejectRemarksComments">*Required</span></td>
+            <td><textarea cols="30" rows="2" [(ngModel)]=rejectRemarks></textarea></td>
+          </tr>
+        </table>
+
+        <button class="btn btn-sm btn-info float-right top-navbar" (click)="deleteExerciseById()">Yes</button>
+        <button class="btn btn-sm btn-info float-right top-navbar" (click)="closeModal()">No</button>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+<ng-template #modelMonitization>
+  <div class="loader-outer" id="preloader" *ngIf="showSpinner">
+    <div class="loader-container">
+      <div class="loader-inner">
+        <div class="loader">
+          <div id="top" class="mask">
+            <div class="plane"></div>
+          </div>
+          <div id="middle" class="mask">
+            <div class="plane"></div>
+          </div>
+          <div id="bottom" class="mask">
+            <div class="plane"></div>
+          </div>
+          <p class="loader-text">&nbsp;<span>ESOP</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-body bg-white" [style.opacity]="showSpinnervalue">
+    <div class="row">
+      <div class="col-12 vertical-tabs">
+        <h6 class="alert alert-success top-navbar">
+          Monetization / Plan:{{selectedPlanYear}}
+        </h6>
+        <form #f="ngForm" (ngSubmit)="startMonitization(f,modalSuccess)" style="margin: 40px;">
+
+          <div class="row">
+            <div class="col-lg-5">
+              <label for="factor" class="mr-0">Vesting Factor</label>
+            </div>
+            <div class="col-lg-5">
+              <div class="form-group">
+                <input *ngIf="! (planData != null && planData.monitizationDate)" type="number" ngModel #factor="ngModel"
+                  id="factor" name="factor" class="form-control">
+                <input readonly *ngIf="planData != null && planData.monitizationDate" class="form-control"
+                  [value]="planData.vestingFactor">
+
+              </div>
+            </div>
+            <span *ngIf="vestingFactorError" style="color: red;">vesting factor cannot be negative, zero,greater than
+              1</span>
+
+
+          </div>
+
+          <span class="alert alert-danger" *ngIf=" planData != null && planData.monitizationDate">Monetization started
+            on {{planData.monitizationDate |date:'dd-MMM-yy'}} </span>
+          <div class="row">
+            <div class="top-rigth-icons ml-auto">
+              <button class="btn btn-sm btn-info float-right top-navbar" (click)="closeModal()">Close</button>
+              <input *ngIf="! (planData != null && planData.monitizationDate)" type="submit" value="submit"
+                class="btn btn-sm btn-info float-right top-navbar">
+                <!-- && currentPlan==selectedPlanYear -->
+            </div>
+          </div>
+        </form>
+
+
+
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #modelFareMarketValueSuccess>
+
+  <div class="modal-body bg-white">
+    <div class="row">
+      <div class="col-12 vertical-tabs">
+
+        <h6 class="alert alert-success top-navbar"><i class="fa fa-check-circle-o" style="font-weight: bolder"></i>&nbsp;
+         
+        </h6>
+        <h6> Fare Market Value uploaded successfully</h6>
+        <br>
+        <button class="btn btn-sm btn-info float-right top-navbar" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+
+</ng-template>
+
+<ng-template #modalExcerice>
+  <div class="modal-body bg-white">
+    <div class="row">
+      <div class="col-12 vertical-tabs">
+
+        <h6 class="alert alert-success top-navbar"><i class="fa fa-check" style="font-weight: bolder"></i>&nbsp;
+          HR-Excerice
+        </h6>
+        <form>
+          <div class="form-group">
+            <input class="form-control" type="date" [ngModel]="d|date:'yyyy-MM-dd'"
+              (change)="getFareMarketValue($event.target.value)" name="date">
+          </div>
+          <div class="form-group">
+            <input readonly class="form-control" type="number" [(ngModel)]="fmvalue" name="fmvalue">
+          </div>
+          <!-- <button class="btn btn-sm btn-info float-right">Submit</button>  -->
+          <span class="alert alert-danger" *ngIf="fmvalue<=0">Set Fare Market Value </span>
+          <input *ngIf="fmvalue>0" type="submit" value="Submit" class="btn btn-sm btn-info float-right">
+          <button class="btn btn-sm btn-info float-right top-navbar" (click)="closeModal()">Close</button>&nbsp;&nbsp;
+        </form>
+
+
+
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalSuccess>
+  <div class="modal-body bg-white">
+    <div class="row">
+      <div class="col-12 vertical-tabs">
+
+        <h6 class="alert alert-success top-navbar"><i class="fa fa-check" style="font-weight: bolder"></i>&nbsp;
+          Monetization Event Intiated and options vested successfully
+        </h6>
+        <table class="table">
+          <tr>
+            <td>Number of GRANTS Vested</td>
+            <td>{{monitizationData.length}}</td>
+          </tr>
+        </table>
+        <button class="btn btn-sm btn-info float-right top-navbar" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+
+<ng-template #exerciseSucessPopup>
+  <div class="modal-body bg-white">
+    <div class="row">
+      <div class="col-12 vertical-tabs">
+
+        <h6 class="alert alert-success top-navbar"><i class="fa fa-check" style="font-weight: bolder"></i>&nbsp;
+          Exercise Requests Approved successfully
+        </h6>
+        <table class="table">
+          <tr>
+            <td>Total Requests Approved</td>
+            <td>{{selected2.length}}</td>
+          </tr>
+        </table>
+        <button class="btn btn-sm btn-info float-right top-navbar" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

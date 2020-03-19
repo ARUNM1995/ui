@@ -1,0 +1,36 @@
+<h5 mat-dialog-title class="alert alert-success" style="background-color: #445963;color: white;"><i class="fa fa-check" style="font-weight: bolder"></i>&nbsp;
+  Allocations Updated Successfully
+</h5>
+
+<mat-dialog-content class="mat-typography">
+    <div class="col-lg-12">  
+      
+      <table class="table table-bordered">
+          <tr>
+              <td>Employee Number</td>
+              <td>{{updatedAllocations[0].grantAssignment.employee.employeeNumber}}</td>
+            </tr>
+            <tr>
+                <td>Employee Name</td>
+                <td>{{updatedAllocations[0].grantAssignment.employee.fullName}}</td>
+              </tr>
+        <tr>
+          <td>No. of Grants Granted</td>
+          <td>{{updatedAllocations[0].grantAssignment.noOfGrants}}</td>
+        </tr>
+        <tr>
+          <td>Grants to be allocated</td>
+          <td>{{tobeAllocatedGrants}}</td>
+        </tr>
+        <tr>
+            <td>Cancelled</td>
+            <td>{{totalGrants-allocatedGrants-tobeAllocatedGrants}}</td>
+          </tr>
+
+      </table>
+  </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+     
+      <button mat-raised-button (click)="onCloseNo()" class="btn btn-primary top-navbar" style="background-color: #445963;color: white;">Close</button>
+    </mat-dialog-actions>

@@ -1,0 +1,302 @@
+<div class="row" (contextmenu)="test()"  (keyup.esc)="test()">
+  <div class="col-lg-12 mb-4">
+         <div class="card">
+              <div class="card-header">
+
+
+
+
+
+
+
+
+                  <div class="col-lg-12 mb-4">
+                      <div class="breadcrumb">  
+                          <h4 style="font-weight: bolder">
+                              {{allocationDetail.grantAssignment.employee.fullName}} {{allocationDetail.grantAssignment.employee.employeeNumber}} : Edit Allocations
+                                <br>
+                                <span style="font-size: 15px;">Plan:{{allocationDetail.grantAssignment.grant.plan.year}} ,Grant Date:{{allocationDetail.grantAssignment.grant.grantDate | date:'d-MMM-yy'}}  ,Cycle {{allocationDetail.grantAssignment.grant.cycle}}</span>    
+                            </h4>
+                        
+                          <div class="top-rigth-icons ml-auto">
+                            
+                           <span class="d-none d-sm-inline-block ">
+                                <a  [routerLink]="backRoute" ><i class="fa fa-2x fa-arrow-circle-left infocheck" > </i></a>
+                                <h6 class="infocheck">Back</h6> 
+                              </span> &nbsp;   
+                              <span class="d-none d-sm-inline-block " (click)="updateEditedAllocations()">
+                                    <a>
+                                        &nbsp;<i class="fa fa-2x fa-upload infocheck"></i>
+                                    </a>
+                                   <h6 class="infocheck">Save</h6> 
+                              </span>
+                              
+                          </div>
+                      </div>
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                      
+                      
+ 
+                  
+                  
+             
+
+
+              </div>            
+          </div>
+  </div>
+  </div>
+
+  <div class="row">
+      <div class="col-lg-6">
+          <ngx-datatable
+                                
+          #table
+          class="material"
+          [headerHeight]="40"
+          [limit]="5"
+          [columnMode]="'force'"
+          [footerHeight]="50"
+          [rowHeight]="'auto'"
+          [rows]="rows"
+          [loadingIndicator]="loadingIndicator"
+          [selected]="selected"
+          [selectionType]="'checkbox'"
+          (select)='onSelect($event)'>
+          
+  
+          
+          
+  
+          <ngx-datatable-column name="Param" prop="allocationYear">
+  
+            
+  
+              <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex" >
+                <span>
+                    Allocation {{rowIndex+1}}
+                </span>
+              </ng-template>
+            </ngx-datatable-column>
+  
+                    
+                    <ngx-datatable-column name="Date" prop="plannedAllocationDate">
+                      <ng-template ngx-datatable-cell-template let-value="value">
+                        <span>
+                          {{value | date:'d-MMM-yy'}}
+                        </span>
+                      </ng-template>
+                    </ngx-datatable-column>
+  
+                    
+                    
+  
+  
+                    <ngx-datatable-column name="Quantity" prop="allocationNumbers" >
+                        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" style="cursor: pointer;" >
+                        <span *ngIf="row.status == 'PENDING'" style="cursor: pointer;">
+                          <span (dblclick)="toggleExpandRow(row,rowIndex)" 
+                          
+                            title="Double click to edit"
+                            (dblclick)="expandCollapse(rowIndex)"
+                            *ngIf="!editing[rowIndex + '-name']">
+                            <a id="test" style="text-decoration: underline dotted ">{{value}}</a>
+                          </span>
+                          <input
+                            (keyup.esc)="editing[rowIndex + '-name'] = false"
+                            autofocus
+                          
+                            (keyup.enter)="updateValue($event, 'name', rowIndex)"
+                            *ngIf="editing[rowIndex+ '-name']"
+                            type="number"
+                            [value]="value"
+                            
+                          />
+                        
+                        </span>
+                        <span *ngIf="row.status != 'PENDING'">{{value}}</span>
+                        </ng-template>
+                      </ngx-datatable-column>
+  
+                      <ngx-datatable-column name="Status" prop="status">
+                          <ng-template ngx-datatable-cell-template let-value="value">
+                            <span>
+                              
+  
+                              <button style="cursor: none;" *ngIf="value == 'ALLOCATED'" type="button" class="btn btn-primary btn-sm mr-1">{{value}}</button>
+                              <button style="cursor: none;" *ngIf="value == 'PENDING'"type="button" class="btn btn-danger btn-sm mr-1">{{value}}</button>
+  
+                            </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+  
+          </ngx-datatable> 
+        </div>
+  </div>
+
+<br><br>
+  
+  <div class="row">
+
+      <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 pl-2 pr-2 mb-4" >
+          <div class="w-100 h-100" style="cursor: none;" style="background-color:  rgb(47, 62, 158);color: white;border-radius: 0.25rem;">
+             
+                <div  style="width: 210px;">
+                  <br>
+                  <h5 class="ml-4 " width="210" height="100">
+                      {{Granted[0].value}}
+                  </h5>
+                  <span class="ml-4 mb-2" width="210" height="100">
+                      Granted
+                  </span>
+                </div>
+              
+          </div>
+      </div>
+
+      <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 pl-2 pr-2 mb-4">
+          <div class="w-100 h-100" style="cursor: none;" style="background-color:  rgb(55, 141, 59);color: white;border-radius: 0.25rem;">
+             
+                <div  style="width: 210px;">
+                  <br>
+                  <h5 class="ml-4"  width="210" height="100">
+                      {{Allocated[0].value}}
+                  </h5>
+                  <span class="ml-4 mb-2" width="210" height="100">
+                      Allocated
+                  </span>
+                </div>
+              
+          </div>
+      </div>
+      
+      <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 pl-2 pr-2 mb-4">
+          <div class="w-100 h-100" style="cursor: none;" style="background-color:  rgb(255, 165, 0);color: white;border-radius: 0.25rem;">
+             
+                <div  style="width: 210px;">
+                  <br>
+                  <h5 class="ml-4" width="210" height="100">
+                      {{ToBeAllocated[0].value}}
+                  </h5>
+                  <span class="ml-4 mb-2" width="210" height="100">
+                      To Be Allocated
+                  </span>
+                </div>
+              
+          </div>
+      </div>
+      
+      <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 pl-2 pr-2 mb-4">
+          <div class="w-100 h-100" style="cursor: none;" style="background-color:  rgb(255, 0, 0);color: white;border-radius: 0.25rem;">
+             
+                <div  style="width: 210px;">
+                  <br>
+                  <h5 class="ml-4" width="210" height="100">
+                      {{Cancelled[0].value}}
+                  </h5>
+                  <span class="ml-4 mb-2" width="210" height="100">
+                      Cancelled
+                  </span>
+                </div>
+              
+          </div>
+      </div>
+      
+        
+    </div>
+
+    <!-- (select)="onSelect($event)" -->
+<!-- <div class="row">
+    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 pl-2 pr-2 mb-4">
+        <div class="w-100 h-100p" style="cursor: none;">
+            <ngx-charts-number-card
+                style="cursor: none;"
+                [scheme]="GrantedBgColor"
+                [textColor]="'#fff'"
+                [innerPadding]="0"
+                [results]="Granted"
+                [valueFormatting]="infoValueFormat"
+                [labelFormatting]="infoLabelFormat"
+               >
+               
+            </ngx-charts-number-card>     
+        </div>
+      </div>
+    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 pl-2 pr-2 mb-4">
+      <div class="w-100 h-100p" style="cursor: none;">
+          <ngx-charts-number-card
+              style="cursor: none;"
+              [scheme]="AllocatedBgColor"
+              [textColor]="'#fff'"
+              [innerPadding]="0"
+              [results]="Allocated"
+              [valueFormatting]="infoValueFormat"
+              [labelFormatting]="infoLabelFormat"
+             >
+          </ngx-charts-number-card>     
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 pl-2 pr-2 mb-4">
+      <div class="w-100 h-100p" style="cursor: none;">
+          <ngx-charts-number-card
+              style="cursor: none;"
+              [scheme]="ToBeAllocatedBgColor"
+              [textColor]="'#fff'"
+              [innerPadding]="0"
+              [results]="ToBeAllocated"
+              [valueFormatting]="infoValueFormat"
+              [labelFormatting]="infoLabelFormat"
+              >
+          </ngx-charts-number-card>     
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 pl-2 pr-2 mb-4">
+      <div class="w-100 h-100p" style="cursor: none;">
+          <ngx-charts-number-card
+              style="cursor: none;"
+              [scheme]="CancelledBgColor"
+              [textColor]="'#fff'"
+              [innerPadding]="0"
+              [results]="Cancelled"
+              [valueFormatting]="infoValueFormat"
+              [labelFormatting]="infoLabelFormat"
+              >
+          </ngx-charts-number-card>     
+      </div>
+    </div>
+  
+  
+</div> -->
+
+
+<!-- 
+<span class="alert alert-danger">PS:You can edit the allocations.If the allocation does not match with Grants then it will be treated as rescind.Click on save button to save the edited Allocations
+</span> -->
+
+<span class="alert alert-danger">
+    PS : You can edit the allocations. If the allocation does not match with Grants then it will be treated as Cancelled. Press ENTER after changing the Quantity. Click on Save button to save the edited Allocations
+</span>
+
+
+
+
+
+
+
+
+

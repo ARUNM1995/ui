@@ -1,0 +1,20 @@
+
+<h5 mat-dialog-title class="alert alert-danger" style="background-color: #445963;color: white;"><i class="fa fa-warning" style="font-weight: bolder"></i>&nbsp;
+  sum of individual grants cannot exceed the number of Grants granted 
+</h5>
+
+<mat-dialog-content class="mat-typography">
+    <div class="col-lg-12">  
+      
+      <table class="table table-bordered">
+        <tr>
+          <td>No. of Grants Granted</td>
+          <td>{{totalGrants}}</td>
+        </tr>
+      </table>
+  </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+     
+      <button mat-raised-button (click)="onCloseNo()" class="btn btn-primary top-navbar" style="background-color: #445963;color: white;">Close</button>
+    </mat-dialog-actions>

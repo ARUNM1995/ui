@@ -1,0 +1,81 @@
+<!-- <div class="sidebar-outer">
+	<a class="logo d-flex align-items-center" routerLink="/stockoptions/mygrants" (click)="closeSubMenus()"
+		*ngIf="settings.theme.sidebarIsFixed">
+		<span class="start" style="margin-top: 32px;">
+
+		</span><span class="ng"><img src="./assets/img/common/esop_logo.png"></span>
+	</a>
+
+
+	<div id="vertical-menu" perfectScrollbar>
+		<div class="menu-wrapper ps ps--active-y" id="vertical-menu" perfectscrollbar ng-reflect-config="">
+			<div id="menu0">
+				<div class="card" tourAnchor="mygrants01" id="menu1" (click)="addCSSClass('menu1')">
+					<a routerLink="/stockoptions/mygrants/" [class.active-link]="menu1"
+						class="menu-item-link transition" data-toggle="tooltip" data-placement="right"
+						data-animation="false" data-container=".vertical-menu-tooltip-place"
+						data-original-title="My Grants" id="link1"><i class="fa fa-gift"></i><span class="menu-title">My
+							Grants</span></a>
+				</div>
+
+				<div class="card" tourAnchor="nominee01" id="menu2" (click)="addCSSClass('menu2')">
+					<a routerLink="/stockoptions/nominies/" [class.active-link]="menu2"
+						class="menu-item-link transition" data-toggle="tooltip" data-placement="right"
+						data-animation="false" data-container=".vertical-menu-tooltip-place"
+						data-original-title="Nominies" id="link2"><i class="fa fa-address-card-o"></i><span
+							class="menu-title">My Nominees</span></a>
+				</div>
+				<div class="card" tourAnchor="grants01" id="menu3" *ngIf="adminRole" (click)="addCSSClass('menu3')">
+					<a routerLink="/stockoptions/grants/" [class.active-link]="menu3" class="menu-item-link transition"
+						data-toggle="tooltip" data-placement="right" data-animation="false"
+						data-container=".vertical-menu-tooltip-place" data-original-title="Grants" id="link3"><i
+							class="fa fa-database"></i><span class="menu-title">Grants</span></a>
+				</div>
+				<div class="card" tourAnchor="allocation01" id="menu4" *ngIf="adminRole" (click)="addCSSClass('menu4')">
+					<a routerLink="/stockoptions/allocate/" [class.active-link]="menu4"
+						class="menu-item-link transition" data-toggle="tooltip" data-placement="right"
+						data-animation="false" data-container=".vertical-menu-tooltip-place"
+						data-original-title="Allocate" id="link4"><i class="fa fa-server"></i><span
+							class="menu-title">Allocate</span></a>
+				</div>
+				<div class="card" tourAnchor="exercise01" id="menu5" *ngIf="adminRole" (click)="addCSSClass('menu5')">
+					<a routerLink="/stockoptions/monitization/" [class.active-link]="menu5"
+						class="menu-item-link transition" data-toggle="tooltip" data-placement="right"
+						data-animation="false" data-container=".vertical-menu-tooltip-place"
+						data-original-title="Reports" id="link5"><i class="fa fa-bar-chart"></i><span
+							class="menu-title">Exercise</span></a>
+				</div>
+				<div class="card" tourAnchor="rescind01" id="menu6" *ngIf="adminRole" (click)="addCSSClass('menu6')">
+					<a routerLink="/stockoptions/rescind/" [class.active-link]="menu6" class="menu-item-link transition"
+						data-toggle="tooltip" data-placement="right" data-animation="false"
+						data-container=".vertical-menu-tooltip-place" data-original-title="Reports" id="link5"><i
+							class="fa fa-credit-card-alt"></i><span class="menu-title">Rescind</span></a>
+				</div>
+				<div class="card" tourAnchor="reports01" id="menu7" (click)="addCSSClass('menu7')">
+					<a routerLink="/stockoptions/reports/" [class.active-link]="menu7" class="menu-item-link transition"
+						data-toggle="tooltip" data-placement="right" data-animation="false"
+						data-container=".vertical-menu-tooltip-place" data-original-title="Reports" id="link5"><i
+							class="fa fa-newspaper-o"></i><span class="menu-title">Reports</span></a>
+				</div>
+			</div>
+			<div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+				<div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+			</div>
+			<div class="ps__rail-y" style="top: 0px; right: 0px;">
+				<div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+			</div>
+		</div>
+	</div>
+
+
+</div> -->
+
+
+
+<div class="sidebar-outer">
+    <a class="logo d-flex align-items-center" routerLink="/" (click)="closeSubMenus()" *ngIf="settings.theme.sidebarIsFixed">
+        <span class="start"></span>
+        <span class="ng"><img src="./assets/img/common/esop_logo.png"></span>
+    </a>
+    <app-vertical-menu [menuItems]="menuItems"></app-vertical-menu>
+</div>

@@ -1,0 +1,319 @@
+<div class="row" tourAnchor="nominee01">
+    <div class="col-lg-12 mb-4">
+        <div class="breadcrumb">
+            <h4 style="font-weight: bolder" class="mt-2">
+
+                Beneficiaries
+            </h4>
+            <div class="top-rigth-icons ml-auto">
+                <div class="input-group-append">
+                    <span  class="pl-1 pr-1">
+
+                       <button style="cursor: none;" class="btn btn-danger btn-lg" *ngIf="sum<100">Status: pending ({{100 - sum}}% )</button>
+                       <button style="cursor: none;" class="btn btn-success btn-lg" *ngIf="sum==100">Status: completed</button> 
+                    </span>&nbsp;&nbsp;
+                    <span style="cursor: pointer;" title="Click to add nominee" (click)="openModal(modalContent, null)"
+                        class="pl-1 pr-1">
+                        <a>
+                            <i class="fa fa-3x fa-user-plus infocheck"></i>
+                        </a>
+                    </span>&nbsp;&nbsp;
+                    <span style="cursor: pointer;" title="Click for grid view" (click)="toggle('grid')"
+                        class="pl-1 pr-1">
+                        <a>
+                            <i class="fa fa-3x fa-th infocheck"></i>
+                        </a>
+                    </span>&nbsp;&nbsp;
+                    <span style="cursor: pointer;" title="Click for table view" (click)="toggle('list')"
+                        class="pl-1 pr-1">
+                        <a>
+                            <i class="fa fa-3x fa-list infocheck"></i>
+                        </a>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 
+ <div class="progress mb-4">
+    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="75"
+        aria-valuemin="0" aria-valuemax="100" [style.width]="sum+'%'">
+        <span *ngIf="sum == 0" style="color: red;font-weight: bolder;"><h6 align="center">Beneficiaries total percentage is less than 100%</h6></span>
+        <span *ngIf="sum<100 && sum>0">Beneficiaries total percentage is less than 100%</span>
+        <span *ngIf="sum==100">100%</span>
+    </div>
+</div>  -->
+
+<div class="loader-outer" id="preloader" *ngIf="showSpinner">
+    <div class="loader-container">
+        <div class="loader-inner">
+            <div class="loader">
+                <div id="top" class="mask">
+                    <div class="plane"></div>
+                </div>
+                <div id="middle" class="mask">
+                    <div class="plane"></div>
+                </div>
+                <div id="bottom" class="mask">
+                    <div class="plane"></div>
+                </div>
+                <p class="loader-text">&nbsp;<span>Nominee</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="type=='grid'" class="row">
+    <div class="col-xl-4 col-lg-6 mb-4" *ngFor="let nominee of nomineesList">
+        <div class="flip">
+            <div class="content">
+                <div class="front">
+                    <div class="card border-0 box-shadow rounded-0">
+                        <div class="card-header border-0 rounded-0 text-muted">
+                            <h5 class="mb-0">
+                                <i class="fa fa-user mr-2" placement="bottom"></i>{{nominee.name}}
+
+
+                            </h5>
+                            <div class="widget-controls" style="cursor: pointer;">
+
+                                <a (click)="openModal(modalContent, nominee)" href="javascript:void(0);"
+                                    class="transition" title="Edit Nominee Details"><i class="fa fa-pencil"></i></a>
+                                <a (click)="deleteNomineeConfirm(nominee,modalNomineeDelteWarning)"
+                                    href="javascript:void(0);" class="transition" title="Delete Nominee"><i
+                                        class="fa fa-trash"></i></a>
+                            </div>
+                        </div>
+                        <div class="card-body pt-3">
+
+                            <div class="media">
+
+                                <div class="media-body ml-3">
+                                    <div class="row">
+                                        <div class="col-5">Name:</div>
+                                        <div class="col-7 pl-2 text-truncate">{{nominee.name}}</div>
+                                        <div class="col-5">Address:</div>
+                                        <div class="col-7 pl-2 text-truncate">{{nominee.address}}</div>
+                                        <div class="col-5">Relationship:</div>
+                                        <!-- <div class="col-8 pl-2 text-truncate">{{nominee.relation}}</div> -->
+                                        <div class="col-7 pl-2 text-truncate">{{nominee.relation}}</div>
+
+                                        <div class="col-5 font-weight-bolder">Percentage:</div>
+                                        <div class="col-7 pl-2 text-truncate">{{nominee.allocation_percenatage}}</div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="type=='list'">
+    <div class="col-12">
+        <div class="table-responsive bg-white box-shadow">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Relationship</th>
+                        <th>%</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let nominee of nomineesList">
+
+                        <td class="align-middle text-truncate">{{nominee.name}}</td>
+                        <td class="align-middle text-truncate">{{nominee.address}}</td>
+                        <td class="align-middle text-truncate">{{nominee.relation}}</td>
+                        <td class="align-middle text-truncate">{{nominee.allocation_percenatage}}</td>
+                        <td class="align-middle">
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-secondary btn-sm" (click)="openModal(modalContent,nominee)"
+                                    title="Edit Nominee Details"><i class="fa fa-pencil"></i></button>
+                                <button class="btn btn-secondary btn-sm"
+                                    (click)="deleteNomineeConfirm(nominee,modalNomineeDelteWarning)"
+                                    title="Delete Nominee"><i class="fa fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #modalContent>
+    <div class="modal-body bg-gray">
+        <div class="row">
+            <div class="col-12 vertical-tabs">
+                <form [formGroup]="form" (ngSubmit)="onSubmit(form.value,modalNomineeDuplicatesWarning)"
+                    class="row px-3">
+                    <h6 align="center" class="alert alert-danger top-navbar" *ngIf="totalPercentage>100"><i
+                            class="fa fa-2x fa-warning" style="font-weight: bolder"></i>&nbsp; &nbsp;&nbsp;
+                        &nbsp;&nbsp;Total Nominee Allocation percentage cannot exceed 100%
+                    </h6>
+
+                    <!-- <ul class="nav flex-column left col-3 border-0 rounded-0 mr-0 bg-light">                    
+                                      
+                        <li class="nav-item bg-light">
+                            <a class="nav-link active" href="#basic" data-toggle="tab">
+                                    <img  src="./assets/img/common/info_logo.png" height="370px;" width="110px;">
+                            </a>
+                        </li>                
+                    </ul>                     -->
+                    <div class="tab-content col-12 border-0">
+                        <div class="tab-pane active" id="basic">
+                            <div class="form-group">
+
+                                <input formControlName="employeeNumber" class="form-control" type="text" hidden>
+
+                            </div>
+                            <div class="form-group">
+
+                                <input formControlName="id" class="form-control" type="text" hidden>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="text-gray">Name</label>
+                                <input formControlName="name" class="form-control validation-field" type="text">
+                                <small class="text-danger"
+                                    *ngIf="form.controls.name.touched && form.controls.name.errors?.required">Name is
+                                    required</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="text-gray">Relationship</label>
+                                <!-- <input formControlName="relation" class="form-control validation-field" type="text"> -->
+                                <select formControlName="relation" class="form-control validation-field">
+                                    <option value="Father" selected="value == relation">Father</option>
+                                    <option value="Mother" selected="value == relation">Mother</option>
+                                    <option value="Spouse" selected="value == relation">Spouse</option>
+                                    <option value="Daughter" selected="value == relation">Daughter</option>
+                                    <option value="Son" selected="value == relation">Son</option>
+                                </select>
+                                <small class="text-danger"
+                                    *ngIf="form.controls.relation.touched && form.controls.relation.errors?.required">Relationship
+                                    is required</small>
+                            </div>
+                            <div class="form-group">
+                                <label class="text-gray">Percentage</label>
+                                <input formControlName="allocation_percenatage" class="form-control validation-field"
+                                    type="number">
+                                <small class="text-danger"
+                                    *ngIf="form.controls.allocation_percenatage.touched && form.controls.allocation_percenatage.errors?.required">Percentage
+                                    is required</small>
+                            </div>
+                            <div class="form-group">
+                                <label class="text-gray">Address</label>
+                                <input formControlName="address" class="form-control validation-field" type="text">
+                                <small class="text-danger"
+                                    *ngIf="form.controls.address.touched && form.controls.address.errors?.required">Address
+                                    is required</small>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="text-gray">Country</label>
+                                        <select formControlName="countryName" class="form-control validation-field"
+                                            (change)="getStatesForCountry($event.target.value)">
+
+                                            <option *ngFor="let c of country" [value]="c.countryName"
+                                                [selected]="c.countryName==nominee.countryName">{{c.countryName}}
+                                            </option>
+
+
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="text-gray">State</label>
+                                        <select formControlName="stateName" class="form-control validation-field">
+                                            <option *ngFor="let t of tempState" [value]="t.stateName"
+                                                [selected]="t.stateName==nominee.stateName">{{t.stateName}}</option>
+
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="text-gray">City</label>
+                                        <input type="text" formControlName="cityName"
+                                            class="form-control validation-field">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="text-gray">Zip Code</label>
+                                        <input type="text" formControlName="zipCode"
+                                            class="form-control validation-field">
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                    <div class="col-12 bg-white text-center py-1">
+                        <button [disabled]="!form.valid" class="btn btn-success mr-1 top-navbar"
+                            type="submit">Submit</button>
+                        <button type="button" class="btn btn-danger top-navbar" (click)="closeModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #modalNomineeDelteWarning>
+    <div class="modal-body bg-white">
+        <div class="row">
+            <div class="col-12 vertical-tabs">
+
+                <h6 class="alert alert-danger top-navbar"><i class="fa fa-warning"
+                        style="font-weight: bolder"></i>&nbsp; Do you wish to delete the nominee details?
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PS :Data deleted cannot be reverted.
+                </h6>
+                <button class="btn btn-sm btn-danger float-right top-navbar"
+                    (click)="deleteNominee()">Yes</button><button class="btn btn-sm btn-info float-right top-navbar"
+                    (click)="closeModal()">No</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+
+<ng-template #modalNomineeDuplicatesWarning>
+    <div class="modal-body bg-white">
+        <div class="row">
+            <div class="col-12 vertical-tabs">
+
+                <h6 class="alert alert-danger top-navbar"><i class="fa fa-warning"
+                        style="font-weight: bolder"></i>&nbsp; Duplicate data cannot be added for parent relationship!
+                </h6>
+                <button class="btn btn-sm btn-info float-right top-navbar" (click)="closeModal()">No</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

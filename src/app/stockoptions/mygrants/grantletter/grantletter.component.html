@@ -1,0 +1,310 @@
+<!-- <div class=" modal-lg modal-body bg-white" style="max-height: 600px; overflow: auto;"></div> -->
+ <!-- <div id="printTable">
+      <h6 class="alert alert-success top-navbar">
+          Notice of Grant for Employee Share Option Plan QuEST Employee Share Option Plan {{acceptModalGrantData.planYear}} of QuEST Global Services Pte Ltd. (the "Plan")
+      </h6>
+      <span>
+                          <b>Grant Number:</b>{{acceptModalGrantData.id}}
+                  </span><br>
+      <span>
+                          <b>Grant Date:</b>{{acceptModalGrantData.grantDate | date :'d-MMM-yy'}}
+                  </span><br>
+      <p>
+          Terms used in this Grant Letter shall bear the same meaning as defined in the Plan. Based on the Plan, the QuEST Employee Stock Option Committee approves the Grant of Option(s) as below:
+      </p>
+      <table class="table" id="printTableId">
+          <tr>
+              <td class="tableheader">
+                  Participant Name
+              </td>
+              <td>{{employee.fullName}}</td>
+          </tr>
+
+          <tr>
+              <td class="tableheader">
+                  Participant Employee Id
+              </td>
+              <td>{{employee.employeeNumber}}</td>
+          </tr>
+          <tr>
+              <td class="tableheader">
+                  Number of Option(s) Granted
+              </td>
+              <td>{{acceptModalGrantData.noOfGrants}}</td>
+          </tr>
+          <tr>
+              <td class="tableheader">
+                  Grant/Exercise Price
+              </td>
+              <td>{{acceptModalGrantData.grantPrice}} USD per Option</td>
+          </tr>
+
+          <tr>
+              <td class="tableheader">
+                  Allocation Schedule
+              </td>
+              <td>
+                  As per the Allocation Schedule defined in the Plan
+              </td>
+          </tr>
+          <tr>
+              <td class="tableheader">Vesting Date</td>
+              <td>The date of a Monetization event</td>
+          </tr>
+      </table>
+
+      <p>
+          The Grant and Option(s) shall be subject to all the terms and conditions of the Plan. You are advised to refer to the QuEST Employee Share Option Plan {{acceptModalGrantData.planYear}} and FAQs annexed to the Plan, for the terms and conditions of Grant,
+          Allocation and Vesting.
+
+
+      </p>
+    
+      By your signature and the signature of the Secretary of the ESOP committee below,
+      <ol type="a">
+          <li>You and the Company agree that the Grant of Option(s) as set out in this letter is offered to you and you have accepted such offer of Grant, and you agree to be bound by this letter and by the terms and conditions of the Plan;
+          </li>
+          <li>
+              You confirm that your acceptance of the Grant will not result in the contravention of any applicable law or regulation in relation the ownership of Shares or Options to acquire such Shares; and
+          </li>
+          <li>
+              You further acknowledge that the Company has not made any representation to induce you to accept the offer of Grant and that the terms of this letter and the Plan constitute the entire agreement between you and the Company relating to the Grant.
+          </li>
+          <li [innerHTML]="acceptModalGrantData.clause">
+           
+          </li>
+      </ol>
+      <br>
+      <table>
+
+          <tr>
+              <td class="grantaccepteddetails"><span *ngIf="acceptModalGrantData.acceptted">Participant</span></td>
+              <td class="grantaccepteddetails">Secretary, ESOP Committee</td>
+          </tr>
+          <tr>
+              <td class="grantaccepteddetails"><span *ngIf="acceptModalGrantData.acceptted">{{employee.fullName}}</span>
+              </td>
+              <td class="grantaccepteddetails" id="esopSecretary"><img src="./assets/img/common/esopSecretary.png" align="right"></td>
+          </tr>
+          <tr>
+
+              <td class="grantaccepteddetails">
+                  <span *ngIf="acceptModalGrantData.acceptted">Accepted on
+                                                  {{acceptModalGrantData.grantAcceptedDate | date :'d-MMM-yy'}}</span>
+              </td>
+              <td class="grantaccepteddetails">
+                  <h6 align="right">
+                      Signature<br>Date:{{acceptModalGrantData.grantDate | date :'d-MMM-yy'}}
+                  </h6>
+              </td>
+          </tr>
+          <tr>
+
+              <td colspan="2">
+                  <button type="button" class="btn btn-success btn-sm  float-right top-navbar" (click)="closeModal()">
+                                                  Close
+                                          </button>
+                  <span *ngIf="!acceptModalGrantData.acceptted">
+                                                  <input type="checkbox" align="right">I Agree
+                                                  <button align="center"
+                                                          class="btn btn-success btn-sm  float-right mr-4 top-navbar"
+                                                          (click)="acceptGrant(modalContent,acceptModalGrantData.id,acceptModalGrantData.employeeNumber)">
+                                                          Submit
+                                                  </button>
+
+                                          </span>
+                  <button *ngIf="acceptModalGrantData.acceptted" align="center" class="btn btn-success btn-sm  float-right mr-4 top-navbar" (click)="downloadPdf()">
+                                                  Download
+                                          </button>
+
+              </td>
+          </tr>
+
+      </table>
+
+  </div>   -->
+
+  <div id="printTable" >
+      <h6 class="alert alert-success top-navbar">
+        Notice of Grant for Employee Share Option Plan QuEST Employee Share Option Plan {{acceptModalGrantData.planYear}} of QuEST Global Services Pte Ltd. (the "Plan")
+      </h6>
+      <div class="row">
+        <div class="col">
+          <span> <b>Grant Number:</b> {{acceptModalGrantData.id}}</span>
+          <span class="ml-4"> <b>Grant Date:</b> {{acceptModalGrantData.grantDate | date :'d-MMM-yy'}}</span>
+        </div>
+      </div>
+      <div class="row">
+            <div class="col">
+              <span>Terms used in this Grant Letter shall bear the same meaning as defined in the Plan. Based on the Plan, the QuEST Employee Stock Option Committee approves the Grant of Option(s) as below:</span>
+            </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+            <table class="table" id="printTableId">
+                <tr>
+                    <td class="tableheader">
+                        Participant Name
+                    </td>
+                    <td>{{employee.fullName}}</td>
+                </tr>
+      
+                <tr>
+                    <td class="tableheader">
+                        Participant Employee Id
+                    </td>
+                    <td>{{employee.employeeNumber}}</td>
+                </tr>
+                <tr>
+                    <td class="tableheader">
+                        Number of Option(s) Granted
+                    </td>
+                    <td>{{acceptModalGrantData.noOfGrants}}</td>
+                </tr>
+                <tr>
+                    <td class="tableheader">
+                        Grant/Exercise Price
+                    </td>
+                    <td>{{acceptModalGrantData.grantPrice}} USD per Option</td>
+                </tr>
+      
+                <tr>
+                    <td class="tableheader">
+                        Allocation Schedule
+                    </td>
+                    <td>
+                        As per the Allocation Schedule defined in the Plan
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableheader">Vesting Date</td>
+                    <td>The date of a Monetization event</td>
+                </tr>
+            </table>
+        </div>
+
+      </div>
+      <div class="row">
+          <div class="col">
+              <span>
+                  The Grant and Option(s) shall be subject to all the terms and conditions of the Plan. You are advised to refer to the QuEST Employee Share Option Plan {{acceptModalGrantData.planYear}} and FAQs annexed to the Plan, for the terms and conditions of Grant,
+                  Allocation and Vesting.
+              </span>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <span> By your signature and the signature of the Secretary of the ESOP committee below,</span>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+            <ol type="a">
+                <li>
+                  You and the Company agree that the Grant of Option(s) as set out in this letter is offered to you and you have accepted such offer of Grant, and you agree to be bound by this letter and by the terms and conditions of the Plan;
+                </li>
+                <li>
+                    You confirm that your acceptance of the Grant will not result in the contravention of any applicable law or regulation in relation the ownership of Shares or Options to acquire such Shares; and
+                </li>
+                <li>
+                    You further acknowledge that the Company has not made any representation to induce you to accept the offer of Grant and that the terms of this letter and the Plan constitute the entire agreement between you and the Company relating to the Grant.
+                </li>
+                <li [innerHTML]="acceptModalGrantData.clause"></li>
+            </ol>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-lg-6"> 
+             <table>
+               <tr>
+                  <td><span *ngIf="acceptModalGrantData.acceptted">Participant</span></td>
+               </tr>
+               <tr>
+                  <td><span *ngIf="acceptModalGrantData.acceptted">{{employee.fullName}}</span></td>
+               </tr>
+               <tr>
+                  <td>
+                      <span *ngIf="acceptModalGrantData.acceptted">Accepted on
+                          {{acceptModalGrantData.grantAcceptedDate | date :'d-MMM-yy'}}
+                      </span>
+                      <!-- <span *ngIf="!acceptModalGrantData.acceptted">
+                          <input type="checkbox" align="left">I Agree
+                          <button align="center"
+                                  class="btn btn-success btn-sm  float-right mr-4 top-navbar"
+                                  (click)="acceptGrant(modalContent,acceptModalGrantData.id,acceptModalGrantData.employeeNumber)">
+                                  Submit
+                          </button>  
+                      </span> -->
+                  </td>
+               </tr>
+             </table>
+          </div>
+          <div class="col-lg-6"> 
+             <table style="margin-left: 400px;">
+               <tr align="right">
+                  <td>Secretary, ESOP Committee</td>
+               </tr>
+               <tr align="right">
+                  <td id="esopSecretary"><img src="./assets/img/common/esopSecretary.png" align="right"></td>
+               </tr>
+               <tr align="right">
+                  <button type="button" class="btn btn-success btn-sm  float-right top-navbar" (click)="closeModal()">
+                      Close
+                  </button>
+                
+                  <button *ngIf="acceptModalGrantData.acceptted" align="center" class="btn btn-success btn-sm  float-right mr-4 top-navbar" (click)="downloadPdf()">
+                      Download
+                  </button>
+                  <span *ngIf="!acceptModalGrantData.acceptted">
+                    <input type="checkbox" align="left">I Agree
+                    <button align="center"
+                            class="btn btn-success btn-sm  float-right mr-4 ml-4 top-navbar"
+                            (click)="acceptGrant(acceptModalGrantData.id,acceptModalGrantData.employeeNumber)">
+                            Submit
+                    </button>  
+                </span>
+               </tr>
+             </table>
+          </div>
+      </div>
+  </div>
+
+
+  <!-- <table>
+      <tr>
+        <td><span *ngIf="acceptModalGrantData.acceptted">Participant</span></td>
+        <td>Secretary, ESOP Committee</td>
+      </tr>
+      <tr>
+        <td><span *ngIf="acceptModalGrantData.acceptted">{{employee.fullName}}</span></td>
+        <td><img src="./assets/img/common/esopSecretary.png" align="right"></td>
+      </tr>
+      <tr>
+        <td><span *ngIf="acceptModalGrantData.acceptted">Accepted on
+            {{acceptModalGrantData.grantAcceptedDate | date :'d-MMM-yy'}}</span></td>
+        <td> 
+            <h6 align="right">
+               Signature<br>Date:{{acceptModalGrantData.grantDate | date :'d-MMM-yy'}}
+             </h6>
+        </td>
+      </tr>
+      <tr>
+          <td colspan="2">
+              <button type="button" class="btn btn-success btn-sm  float-right top-navbar" (click)="closeModal()">
+                  Close
+              </button>
+              <span *ngIf="!acceptModalGrantData.acceptted">
+                  <input type="checkbox" align="right">I Agree
+                  <button align="center"
+                          class="btn btn-success btn-sm  float-right mr-4 top-navbar"
+                          (click)="acceptGrant(modalContent,acceptModalGrantData.id,acceptModalGrantData.employeeNumber)">
+                          Submit
+                  </button>
+
+              </span>
+              <button *ngIf="acceptModalGrantData.acceptted" align="center" class="btn btn-success btn-sm  float-right mr-4 top-navbar" (click)="downloadPdf()">
+                  Download
+              </button>
+          </td>
+      </tr>
+    </table>   -->

@@ -1,0 +1,410 @@
+ <div (contextmenu)="test()" (keyup.esc)="test()">
+
+    <div class="row">
+        <div class="col-lg-12 mb-4">
+            <div class="breadcrumb" style="height: 60px;">
+                <h5 style="font-weight: bolder" class="mt-3">
+                    <i class="fa fa-database"></i>&nbsp; Manage Grants / Plan : {{selectedPlan}}/ Grant :{{selectedYear}}
+                </h5>
+                <div class="top-rigth-icons ml-auto">
+                    <div class="input-group-append">
+                        <span title="Click to download grants" (click)="exportData()" tourAnchor="grants02">
+              <a>
+                <i class="fa fa-2x fa-download infocheck ml-2"></i>
+              </a>
+              <h6 class="infocheck">Export</h6>
+            </span>&nbsp;&nbsp;
+                        <span style="cursor: none;" title="Total pending Grants" title="Total Pending Grants" tourAnchor="grants03">
+              <button class="btn btn-danger mb-5" style="cursor: none;">
+                {{totalPendingGrants}}
+                <br>
+              </button>
+            </span>&nbsp;&nbsp;
+                        <span *ngIf="currentPlanYear==selectedPlan" title="Click to grant Grants" (click)="updateGrantsStatusConformation(modalContent,modalContentWarningMessage)" tourAnchor="grants04">
+              <a>
+                &nbsp;<i class="fa fa-2x fa-gift infocheck"></i>
+              </a>
+              <h6 class="infocheck">Grant</h6>
+            </span>&nbsp;
+                        <span *ngIf="currentPlanYear==selectedPlan" title="Click to upload Grants" style="cursor: pointer;" tourAnchor="grants05">
+              <div class="form-group">
+                <div class="input-group file-upload">
+                  <input type="file" style="cursor: pointer;" (change)="incomingfile($event)" #input
+                    class="file-upload-btn" />
+                  <span class="input-group-append" style="cursor: pointer;">
+                    &nbsp;&nbsp;&nbsp;<button style="cursor: pointer;" class="btn btn-primary btn-sm mr-1 btntestinfo"
+                      [disabled]="this.currentGrantYear!=this.selectedYear">
+                      <i class="fa fa-1x fa-plus-square-o "></i>
+                    </button>
+                  </span>
+                    </div>
+                    <h6 class="infocheck">Upload</h6>
+                </div>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+
+<div class="row">
+    <div class="col-lg-10">
+        <div class="input-group-append" tourAnchor="grants06">
+            <span class="col-sm-1">
+          Plan
+        </span>
+            <span class="col-sm-1" style="padding-left: 0%;margin-left: 0%;">
+          <select id="plan" (change)="getGratnYearsForPlanHandler($event.target.value)" class="form-control">
+              <option value="select">-select-</option>
+            <option *ngFor="let plan of plans" value="{{plan.year}}" [selected]="plan.isCurrentPlan==1">
+              {{plan.year}}
+            </option>
+          </select>
+        </span>
+            <span class="col-sm-1">
+          Grant Year
+        </span>
+            <span class="col-sm-1" style="padding-left: 0%;margin-left: 0%;">
+          <select id="grantYear" (change)="getGratnsByYear($event.target.value)" class="form-control">
+            <option value="select">-select-</option>
+            <option *ngFor="let grantYear of grantYears" value="{{grantYear}}" [selected]="grantYear==currentGrantYear">
+              {{grantYear}}
+            </option>
+          </select>
+        </span>
+            <div class="col" tourAnchor="grants07">
+                <span *ngFor="let noPendingGrants of noPendingGrantsForDateArray" title="Click to view Grants by date">
+            <a class="d-none d-lg-inline-block" (click)="getGrantsByGrantDate(noPendingGrants.grantDate)"
+              style="display: inline; cursor: pointer;">
+              <button type="button" class="btn btn-outline-primary btn-sm mr-1 btntestinfo"
+                [class.btntestinfo]="noPendingGrants.grantDate == maxDate">
+                <span>{{noPendingGrants.grantDate | date:'d-MMM-yy'}}</span>
+                <span class="badge badge-danger badge-pill" title="pending grants">
+                  {{noPendingGrants.grantPending}}
+                </span>
+                </button>
+
+                </a>&nbsp;
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<br>
+
+<div class="input-group mb-2">
+    <span class="input-group-prepend">
+      <span class="input-group-text">
+        <i class="fa fa-search"></i>
+      </span>
+    </span>
+    <input class="form-control" type="text" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" />
+</div>
+
+<div class="loader-outer" id="preloader" *ngIf="showSpinner">
+    <div class="loader-container">
+        <div class="loader-inner">
+            <div class="loader">
+                <div id="top" class="mask">
+                    <div class="plane"></div>
+                </div>
+                <div id="middle" class="mask">
+                    <div class="plane"></div>
+                </div>
+                <div id="bottom" class="mask">
+                    <div class="plane"></div>
+                </div>
+                <p class="loader-text">&nbsp;<span>ESOP</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ngx-datatable [style.opacity]="showSpinnervalue" #table class="material" [headerHeight]="70" [limit]="15" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="40" [rows]="rows" [loadingIndicator]="loadingIndicator" [selected]="selected" [selectionType]="'checkbox'"
+    (select)='onSelect($event)'>
+
+    <ngx-datatable-column name="Employee Id" prop="employeeNumber">
+        <ng-template ngx-datatable-cell-template let-value="value">
+            <span>
+          {{value}}
+        </span>
+
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Full Name" prop="fullName" [width]="280">
+        <ng-template ngx-datatable-cell-template let-value="value">
+            <span>
+          {{value}}
+        </span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Band As On Grant" prop="band">
+        <ng-template ngx-datatable-cell-template let-value="value">
+            {{value}}
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Entity As On Grant" prop="entity">
+        <ng-template ngx-datatable-cell-template let-value="value">
+            <span>
+          {{value}}
+        </span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Employee Status" prop="employeeStatus">
+        <ng-template ngx-datatable-cell-template let-value="value">
+            <span>
+
+          <button class="btn btn-success btn-sm btn-rounded" *ngIf="value=='Active'"
+            style="min-width: 55px;font-size: 0.6rem;cursor: none;"> {{value}}</button>
+          <button class="btn btn-danger btn-sm btn-rounded" *ngIf="value=='Resigned'"
+            style="min-width: 55px;font-size: 0.6rem;cursor: none;"> {{value}}</button>
+        </span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Category" prop="category" [width]="200">
+        <ng-template ngx-datatable-cell-template let-value="value">
+            <span>
+          {{value}}
+        </span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Frequency" prop="frequency" [width]="200">
+        <ng-template ngx-datatable-cell-template let-value="value">
+            <span>
+          {{value}}
+        </span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Grant ID" prop="grantAssignmentId" [width]="200">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+            <span>
+          {{row.grantAssignmentId}}
+        </span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Grants" prop="noOfGrants">
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+
+            <span *ngIf="row.status == 'PENDING'">
+          <span (dblclick)="toggleExpandRow(row,rowIndex)" title="Double click to edit" style="cursor: pointer;"
+            *ngIf="!editing[rowIndex + '-name']">
+            <a style="text-decoration: underline">{{value}}</a>
+          </span>
+            </span>
+
+
+            <span *ngIf="row.status != 'PENDING'">{{value}}</span>
+
+            <input autofocus title="Press Enter to save after edit" (change)="title='Press Enter to save'" (keyup.esc)="editing[rowIndex + '-name'] = false" (keyup.enter)="updateValue($event, 'name', rowIndex)" *ngIf="editing[rowIndex+ '-name']" type="text" [value]="value"
+            />
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Grants Price" prop="grantPrice">
+        <ng-template ngx-datatable-cell-template let-value="value">
+            <span>
+          {{value}}&nbsp;<i class="fa  fa-dollar"></i>
+        </span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Allocated" prop="allocationNumbers">
+        <ng-template ngx-datatable-cell-template let-value="value">
+            <span>
+          {{value?value:'N/A'}}
+        </span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Grant Date" prop="grantDate" [width]="180">
+        <ng-template ngx-datatable-cell-template let-value="value">
+            <span>
+          {{value|date:'d-MMM-yy'}}
+        </span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Grant Status" prop="status">
+        <ng-template ngx-datatable-cell-template let-value="value">
+            <span>
+          <button style="cursor: none;font-size: 0.6rem;" *ngIf="value == 'GRANTED'" type="button"
+            class="btn btn-primary btn-sm">{{value}}</button>
+          <button style="cursor: none;font-size: 0.6rem;" *ngIf="value == 'PENDING'" type="button"
+            class="btn btn-danger btn-sm">{{value}}</button>
+        </span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Lockin" prop="locked">
+        <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+            <span *ngIf="value == 'UNLOCKED'" style="cursor: pointer;" (click)="chnageLockInStatus(row)">
+          <a>
+            <i class="fa fa-2x fa-unlock" style="color: blue;"></i>
+          </a>
+        </span>
+            <span *ngIf="value == 'LOCKED'" style="cursor: pointer;color: gray;" (click)="chnageLockInStatus(row)">
+          <a>
+            <i class="fa fa-2x fa-lock"></i>
+          </a>
+        </span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" prop="status" [width]="50">
+        <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+            <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+            <input *ngIf="value == 'PENDING'" type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
+
+
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Action" prop="status">
+
+
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+
+            <tr>
+                <td *ngIf="value == 'GRANTED'">
+                    <span class="d-none d-sm-inline-block" style="cursor: pointer;" title="Edit Allocations" (click)="editAllocatedGrants(row.grantAssignmentId)">
+              <a><i class="fa fa-1x fa-pencil" style="color: black;"></i></a>
+            </span>
+                </td>
+
+                <td *ngIf="value == 'PENDING'">
+                    <span title="Delete Grant" style="cursor: pointer;" class="d-none d-sm-inline-block" data-toggle="modal" data-target="#warning-modal" (click)="deleteGrantWarningModal(row)">
+              <a><i class="fa fa-1x fa-trash" style="color: black;"></i></a>
+            </span>
+                </td>
+            </tr>
+
+          
+
+
+
+
+        </ng-template>
+
+    </ngx-datatable-column>
+
+</ngx-datatable>
+<br>
+
+</div>  
+
+
+
+
+
+<div class="modal fade" id="warning-modal" tabindex="-1" role="dialog" aria-labelledby="modal-warning-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header top-navbar">
+                <h4 class="modal-title" id="modal-warning-label">
+                    <i class="fa fa-exclamation"></i> Warning
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                Are you sure to delete
+                <span *ngIf="deletableGrant!=null">
+          {{deletableGrant.fullName}} grant with grant id {{deletableGrant.grantAssignmentId}}
+        </span> ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="deleteGrant()">
+          Yes
+        </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+          No
+        </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #modalContent>
+    <div class="modal-content">
+        <div class="modal-header top-navbar">
+            <h4 class="modal-title" id="modal-warning-label">
+                <i class="fa fa-check"></i> Grants granted successfully
+            </h4>
+        </div>
+        <div class="modal-body">
+            <div class="col-lg-12" *ngIf="grantedGrantsModalData!=null">
+                <table class="table table-bordered">
+                    <tr>
+                        <td>Plan</td>
+                        <td>{{grantedGrantsModalData[0].planYear}}</td>
+                    </tr>
+                    <tr>
+                        <td>Grant Date</td>
+                        <td>{{grantedGrantsModalData[0].grantDate | date:'d-MMM-yy'}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>No Of Grants granted</td>
+                        <td>{{grantedGrantsModalData.length - missMatchGrantsModalData.length}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-12" *ngIf="missMatchGrantsModalData.length!=0">
+                <span style="color: red;">
+          *Below Employees Grants has not been granted due to band missmatch
+        </span>
+                <table class="table table-bordered">
+                    <tr>
+                        <td>Employee Number</td>
+                        <td>Employee Name</td>
+                        <td>Band</td>
+                    </tr>
+                    <tr *ngFor="let d of missMatchGrantsModalData">
+                        <td>{{d.employeeNumber}}</td>
+                        <td>{{d.fullName}}</td>
+                        <td>{{d.band}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default top-navbar" (click)="closeModal(modalContent)">
+        Close
+      </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #modalContentWarningMessage>
+    <div class="modal-content">
+        <div class="modal-header top-navbar">
+            <h4 class="modal-title" id="modal-warning-label">
+                <i class="fa fa-exclamation-circle"></i>
+            </h4>
+        </div>
+        <div class="modal-body">
+            You have selected all records for Grants. Are you sure to proceed?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default top-navbar" (click)="closeModal(modalContent)">
+        Close
+      </button>
+            <button type="button" class="btn btn-default top-navbar" (click)="updateGrantsStatus(modalContent)">
+        Yes
+      </button>
+        </div>
+    </div>
+</ng-template>

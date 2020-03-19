@@ -1,0 +1,17 @@
+<mat-dialog-content class="mat-typography">
+    <div class="breadcrumb" style="background-color: #445963;color: white;">  
+      <h4 *ngIf="headerData" style="font-weight: bolder;" >
+        <i class="fa fa-exclamation" ></i>&nbsp;
+         Duplicate entry exists please remove and upload 
+      </h4> 
+      <h4 *ngIf="!headerData" style="font-weight: bolder" >
+        <i class="fa fa-exclamation" ></i>&nbsp;
+         You can upload only current year Grants
+      </h4>                         
+     
+  </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+     
+      <button mat-raised-button (click)="onCloseNo()" class="btn btn-primary top-navbar" style="background-color: #445963;color: white;">Close</button>
+    </mat-dialog-actions>

@@ -1,0 +1,377 @@
+<div class="row">
+    <div class="col-lg-12 mb-4" tourAnchor="mygrants01">
+        <div class="breadcrumb">
+            <h4 style="font-weight: bolder" class="mt-2">
+                <i class="fa fa-gift"></i>&nbsp; My Grants & Allocations / Plan : {{currentPlanYear}}
+            </h4>
+            <div class="top-rigth-icons ml-auto ">
+                <div class="input-group-append">
+                    <span class="mr-4">
+                                                <div class="input-group-prepend dropleft infocheck">
+                                                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-secondary 
+                                                               dropdown-toggle infocheckbgcolr" data-toggle="dropdown"
+                                                                type="button">
+                                                                {{currentPlanYear}}
+                                                        </button>
+                                                        <div class="dropdown-menu" x-placement="right-start" style="position: absolute; 
+                                                            will-change: transform; 
+                                                            top: 0px; left: 0px; 
+                                                            transform: translate3d(95px, 0px, 0px);">
+                                                                <a class="dropdown-item" href="javascript:void(0);"
+                                                                        *ngFor="let plan of plans"
+                                                                        (click)="getSumOfAllocatedGrantsByPlan(plan.year)">
+                                                                        {{plan.year}}
+                                                                </a>
+                                                        </div>
+                                                </div>
+                                                <h6 class="infocheck ml-4">Plan</h6>
+                                        </span>
+                    <span tourAnchor="mygrants02">
+
+
+                                                <div class="input-group infocheck" style="align-self: center">
+
+                                                        <a routerLink="/stockoptions/vesting/">
+                                                                &nbsp;&nbsp;&nbsp;
+                                                                <i
+                                                                        class="info-color fa fa-2x fa-toggle-up infocheck "></i>
+                                                        </a>
+
+
+                                                </div>
+                                                <h6 class="infocheck">Exercise</h6>
+
+
+                                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="row" *ngFor="let grant of grants" style="padding-left: 8px;">
+        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 pl-2 pr-2">
+            <div  style="cursor: none;">
+                <div class="menu-wrapper ps">
+                    <div class="card">
+                        <a align="center" class="menu-item-link transition active-link" style="cursor: none;">
+                            <div class="card-body" style="margin-top: 0px;
+                                                                     padding-top: 0px;">
+                                <!-- <h5 style="margin-top: 0px;
+                                                                           padding-top: 0px;">
+                                    {{grant.grantDate | date:'d-MMM-yy'}}
+                                </h5>
+                                <span>
+                                                                        (Grant Id: {{grant.id}})
+                                                                </span> -->
+                                                                <table style="padding-top: 10px;">
+                                                                    <tr>
+                                                                        <td class="pr-2 "><h5> {{grant.grantDate | date:'d-MMM-yy'}}</h5></td>
+                                                                        <td class="border-left pl-2">
+                                                                            <tr><td><h6>Options: {{grant.category}}</h6></td></tr>
+                                                                            <tr><td><h6>Grant Id: {{grant.id}}</h6></td></tr>
+                                                                        </td>
+                                                                    </tr>
+                                    
+                                                                </table>                              
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 pl-2 pr-2 mb-4">
+            <div class="w-100 h-70 card cardinfo" style="cursor: none;">
+
+                <div style="width: 260px;">
+
+                    <div class="card-body" style="margin-top: 10px;padding-top: 10px;">
+                        <table style="color:black;">
+
+
+
+                            <tr>
+                                <td>
+                                    <h6>Granted</h6>
+                                </td>
+                                <td>
+                                    <h6>: {{grant.noOfGrants}} @ {{grant.grantPrice}}
+                                        <i class="fa fa-dollar"></i></h6>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>Allocated&nbsp;</h6>
+                                </td>
+                                <td>
+                                    <h6 *ngIf="grant.allocated!=null"> : {{grant.allocated}}</h6>
+                                    <h6 *ngIf="grant.allocated==null"> : N/A</h6>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 pl-2 pr-2 mb-4">
+            <div class="w-100 h-70 card cardinfo" style="cursor: none;">
+
+                <div style="width: 210px;">
+                    <div class="card-body mt-0">
+                        <table style="color:black;">
+
+
+                            <tr>
+                                <td>
+                                    <h6>Vested</h6>
+                                </td>
+                                <td>
+                                    <h6 *ngIf="grant.vestedOptions!=null">: {{grant.vestedOptions?grant.vestedOptions:0 |number:'1.1-1'}}
+                                    </h6>
+                                    <h6 *ngIf="grant.vestedOptions==null">: N/A
+                                    </h6>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>Rescind</h6>
+                                </td>
+                                <td>
+                                    <h6 *ngIf="grant.rescingOptions!=null">: {{grant.rescingOptions?grant.rescingOptions:0|number:'1.1-1'}}
+                                    </h6>
+                                    <h6 *ngIf="grant.rescingOptions==null">: N/A
+                                    </h6>
+                                </td>
+                            </tr>
+
+
+                        </table>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 pl-2 pr-2 mb-4">
+            <div class="w-100 h-70 card cardinfo" style="cursor: none;">
+
+                <div style="width: 210px;">
+                    <div class="card-body">
+                        <table style="color:black;">
+
+                            <tr>
+                                <td>
+                                    <h6>Exercised&nbsp;</h6>
+                                </td>
+                                <td>
+                                    <h6 *ngIf="grant.exercisedOptions!=null"> : {{grant.exercisedOptions?grant.exercisedOptions:0|number:'1.1-1'}}
+                                    </h6>
+                                    <h6 *ngIf="grant.exercisedOptions==null"> : N/A</h6>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h6>Sold&nbsp;</h6>
+                                </td>
+                                <td>
+                                    <h6 *ngIf="grant.soldOptions!=null"> : {{grant.soldOptions?grant.soldOptions:0|number:'1.1-1'}}
+                                    </h6>
+                                    <h6 *ngIf="grant.soldOptions==null"> : N/A
+                                    </h6>
+                                </td>
+                            </tr>
+
+
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-xl-1 col-lg-2 col-md-2 col-sm-4 pl-2 pr-2 mb-4">
+            <div class="mt-4">
+                <a (click)=viewGrantDetails(grant.id) style="cursor: pointer;" title="View details">
+                    <h6 align="center">
+                        <i class="fa fa-2x  fa-server infocheck"></i>
+                    </h6>
+                    <h6 align="center" class="infocheck">View Details </h6>
+                </a>
+            </div>
+
+        </div>
+        <div class="col-xl-1 col-lg-2 col-md-2 col-sm-4 pl-2 pr-2 mb-4" *ngIf="tempCurrentPlanYear==currentPlanYear">
+            <div class="mt-4">
+                <a *ngIf="!grant.acceptted" (click)="openModal(modalContent,grant)" style="cursor: pointer;color: red;" title="Sign Grant">
+                    <h6 align="center">
+                        <i class="fa fa-2x  fa fa-file-pdf-o infocheck"></i>
+                    </h6>
+                    <h6 align="center" class="infocheck">Sign Grant</h6>
+                </a>
+                <a *ngIf="grant.acceptted" (click)="openModal(modalContent,grant)" style="cursor: pointer;" title="Grant letter">
+                    <h6 align="center">
+                        <i class="fa fa-2x  fa fa-file-pdf-o infocheck"></i>
+                    </h6>
+                    <h6 align="center" class="infocheck">Grant Letter</h6>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+<ng-template #modalContent>
+    <div class=" modal-lg modal-body bg-white" style="max-height: 600px; overflow: auto;">
+        <div id="printTable">
+            <h6 class="alert alert-success top-navbar">
+                Notice of Grant for Employee Share Option Plan QuEST Employee Share Option Plan {{acceptModalGrantData.planYear}} of QuEST Global Services Pte Ltd. (the "Plan")
+            </h6>
+            <span>
+                                <b>Grant Number:</b>{{acceptModalGrantData.id}}
+                        </span><br>
+            <span>
+                                <b>Grant Date:</b>{{acceptModalGrantData.grantDate | date :'d-MMM-yy'}}
+                        </span><br>
+            <p>
+                Terms used in this Grant Letter shall bear the same meaning as defined in the Plan. Based on the Plan, the QuEST Employee Stock Option Committee approves the Grant of Option(s) as below:
+            </p>
+            <table class="table" id="printTableId">
+                <tr>
+                    <td class="tableheader">
+                        Participant Name
+                    </td>
+                    <td>{{employee.fullName}}</td>
+                </tr>
+
+                <tr>
+                    <td class="tableheader">
+                        Participant Employee Id
+                    </td>
+                    <td>{{employee.employeeNumber}}</td>
+                </tr>
+                <tr>
+                    <td class="tableheader">
+                        Number of Option(s) Granted
+                    </td>
+                    <td>{{acceptModalGrantData.noOfGrants}}</td>
+                </tr>
+                <tr>
+                    <td class="tableheader">
+                        Grant/Exercise Price
+                    </td>
+                    <td>{{acceptModalGrantData.grantPrice}} USD per Option</td>
+                </tr>
+
+                <tr>
+                    <td class="tableheader">
+                        Allocation Schedule
+                    </td>
+                    <td>
+                        As per the Allocation Schedule defined in the Plan
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tableheader">Vesting Date</td>
+                    <td>The date of a Monetization event</td>
+                </tr>
+            </table>
+
+            <p>
+                The Grant and Option(s) shall be subject to all the terms and conditions of the Plan. You are advised to refer to the QuEST Employee Share Option Plan {{acceptModalGrantData.planYear}} and FAQs annexed to the Plan, for the terms and conditions of Grant,
+                Allocation and Vesting.
+
+
+            </p>
+          
+            By your signature and the signature of the Secretary of the ESOP committee below,
+            <ol type="a">
+                <li>You and the Company agree that the Grant of Option(s) as set out in this letter is offered to you and you have accepted such offer of Grant, and you agree to be bound by this letter and by the terms and conditions of the Plan;
+                </li>
+                <li>
+                    You confirm that your acceptance of the Grant will not result in the contravention of any applicable law or regulation in relation the ownership of Shares or Options to acquire such Shares; and
+                </li>
+                <li>
+                    You further acknowledge that the Company has not made any representation to induce you to accept the offer of Grant and that the terms of this letter and the Plan constitute the entire agreement between you and the Company relating to the Grant.
+                </li>
+               
+                    <li [innerHTML]="acceptModalGrantData.clause" *ngIf="acceptModalGrantData.clause!=null">
+                 
+                    </li>
+               
+            </ol>
+            <br>
+            <div id="ModalGrantDataAnnexure" [innerHTML]="acceptModalGrantData.annexure" *ngIf="acceptModalGrantData.annexure!=null">
+            </div>
+            <h6>Allocation Schedule</h6>
+            <table *ngIf="allocationSchedule!=null" class="table">
+                
+                <thead>
+                    <tr>
+                        <th>Planned Allocation Date</th>
+                        <th>Allocations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let allocation of allocationSchedule">
+                        <td>{{allocation.plannedAllocationDate|date :'d-MMM-yy'}}</td>
+                        <td>{{allocation.allocationNumbers}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table>
+
+                <tr>
+                    <td class="grantaccepteddetails"><span *ngIf="acceptModalGrantData.acceptted">Participant</span></td>
+                    <td class="grantaccepteddetails">Secretary, ESOP Committee</td>
+                </tr>
+                <tr>
+                    <td class="grantaccepteddetails"><span *ngIf="acceptModalGrantData.acceptted">{{employee.fullName}}</span>
+                    </td>
+                    <td class="grantaccepteddetails" id="esopSecretary"><img src="./assets/img/common/esopSecretary.png" align="right"></td>
+                </tr>
+                <tr>
+
+                    <td class="grantaccepteddetails">
+                        <span *ngIf="acceptModalGrantData.acceptted">Accepted on
+                                                        {{acceptModalGrantData.grantAcceptedDate | date :'d-MMM-yy'}}</span>
+                    </td>
+                    <td class="grantaccepteddetails">
+                        <h6 align="right">
+                            Signature<br>Date:{{acceptModalGrantData.grantDate | date :'d-MMM-yy'}}
+                        </h6>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td colspan="2">
+                        <button type="button" class="btn btn-success btn-sm  float-right top-navbar" (click)="closeModal()">
+                                                        Close
+                                                </button>
+                        <span *ngIf="!acceptModalGrantData.acceptted">
+                                                        <input type="checkbox" align="right">I Agree
+                                                        <button align="center"
+                                                                class="btn btn-success btn-sm  float-right mr-4 top-navbar"
+                                                                (click)="acceptGrant(modalContent,acceptModalGrantData.id,acceptModalGrantData.employeeNumber)">
+                                                                Submit
+                                                        </button>
+
+                                                </span>
+                        <button *ngIf="acceptModalGrantData.acceptted" align="center" class="btn btn-success btn-sm  float-right mr-4 top-navbar" (click)="downloadPdf()">
+                                                        Download
+                                                </button>
+
+                    </td>
+                </tr>
+
+            </table>
+       
+
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,13 @@
+.ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: normal !important;
+  
+    vertical-align: middle !important;
+   
+  }
+  datatable-body-cell{
+    align-content: center;
+    text-align: center;
+    align-items: center;
+  }

@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>ESOP</title>
+  <base href="/">
+ <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+
+  <link href="assets/feedback-view/common.css" rel="stylesheet">
+  <script src="assets/feedback-view/amcharts/amcharts.js" type="text/javascript"></script>
+  <script src="assets/feedback-view/amcharts/pie.js" type="text/javascript"></script>
+  <script src="assets/feedback-view/amcharts/serial.js" type="text/javascript"></script>
+  <script src="assets/feedback-view/amcharts/plugins/export/export.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="assets/feedback-view/amcharts/plugins/export/export.css" type="text/css" media="all" />
+  <script src="assets/feedback-view/amcharts/themes/light.js"></script>  
+  <meta name="viewport" content="width=device-width, initial-scale=1">  
+  <link rel="icon" type="image/x-icon" href="assets/img/common/quest_logo.png">
+  <script type="text/javascript" src="assets/feedback-view/feedback.js"></script>
+</head>
+<body>
+  <app-root></app-root>   
+  <script type="text/javascript">
+    (function (window) {
+      // Polyfills DOM4 MouseEvent only on IE11
+      // Fixes ngx-charts line-chart hover
+      // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/MouseEvent#Polyfill
+      if (!!window.MSInputMethodContext && !!document.documentMode || document.documentMode === 10) {
+        function MouseEvent(eventType, params) {
+          params = params || { bubbles: false, cancelable: false };
+          var mouseEvent = document.createEvent('MouseEvent');
+          mouseEvent.initMouseEvent(eventType, params.bubbles, params.cancelable, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+
+          return mouseEvent;
+        }
+        MouseEvent.prototype = Event.prototype;
+        window.MouseEvent = MouseEvent;
+      }
+    })(window);
+  </script> 
+</body>
+</html>

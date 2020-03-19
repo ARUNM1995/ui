@@ -1,0 +1,109 @@
+
+<div class="row">
+  <div class="col-lg-12">
+      <div class="breadcrumb" style="height: 60px;">  
+          <h5 style="font-weight: bolder" class="mt-3">
+            <i class="fa fa-unlock-alt"></i>&nbsp;
+            Lock In 
+          </h5>                         
+          <div class="top-rigth-icons ml-auto">
+            <span class="d-none d-sm-inline-block" >
+                <a routerLink="/stockoptions/monitization/">
+                  <i class="fa fa-2x fa-arrow-circle-left infocheck"></i>
+                </a><h6 class="infocheck">Back</h6>
+              </span>&nbsp;&nbsp;
+          
+           
+            
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="input-group mb-2">
+    <span class="input-group-prepend">
+      <span class="input-group-text">
+          <i class="fa fa-search"></i>
+      </span>
+    </span>
+    <input 
+      class="form-control" 
+      type="text" 
+      placeholder="Type to filter the name column..." 
+      (keyup)="updateFilter($event)"/>
+  </div>
+      <div class="row">
+          <div class="col-12">                
+              
+           
+              <ngx-datatable  
+                  #table
+                  class="material"
+                  [headerHeight]="40"
+                  [limit]="10"
+                  [columnMode]="'force'"
+                  [footerHeight]="50"
+                  [rowHeight]="40"
+                  [rows]="rows"
+                  [loadingIndicator]="loadingIndicator"
+                  [selected]="selected"
+                  [selectionType]="'checkbox'"
+                    >
+                          
+                            <ngx-datatable-column name="Employee Number" >
+                              <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                                {{row.employeeNumber}}
+                              </ng-template>
+                            </ngx-datatable-column>
+
+                            
+                            <ngx-datatable-column name="Employee Name" >
+                                    <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                                      {{row.fullName}}
+                                    </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Employee Status" >
+                                    <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                                      {{row.employeeStatus}}
+                                    </ng-template>
+                            </ngx-datatable-column>
+                      
+                                  
+                            <ngx-datatable-column name="Entity" >
+                                          <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                                            {{row.entity}}
+                                          </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Band" >
+                                    <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                                      {{row.band}}
+                                    </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Lock" >
+                                    <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                                            <!-- <input type="checkbox" checked data-toggle="toggle"> -->
+                                            <span *ngIf="row.lockInStatus == 'UNLOCKED'" style="cursor: pointer;" (click)="chnageLockInStatus(row)">
+                                                <a>
+                                                    <i class="fa fa-2x fa-unlock" style="color: blue;"></i>
+                                                </a>
+                                            </span>
+                                            <span *ngIf="row.lockInStatus == 'LOCKED'" style="cursor: pointer;color: gray;" (click)="chnageLockInStatus(row)">
+                                                  <a>
+                                                      <i class="fa fa-2x fa-lock"></i>
+                                                  </a>
+                                           </span>
+                                    </ng-template>
+                            </ngx-datatable-column>
+                </ngx-datatable>  
+              <br>
+             
+          </div>
+      </div>    
+
+
+
+
+   

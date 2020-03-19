@@ -1,0 +1,355 @@
+<div class="row">
+    <div class="col-lg-12 mb-4">
+        <div class="breadcrumb">
+            <h5 style="font-weight: bolder" class="mt-3">
+                <i class="fa fa-server"></i>&nbsp; Manage Allocations / Plan : {{planYear}}
+            </h5>
+            <div class="top-rigth-icons ml-auto">
+                <div class="input-group-append">
+                    <span tourAnchor="allocation02" title="Toggle button" style="margin-top: 0px;padding-top: 0px;">
+                                          <div class="onoffswitch">
+                                              <input type="checkbox" 
+                                                      name="onoffswitch" 
+                                                      class="onoffswitch-checkbox" 
+                                                      id="myonoffswitch" 
+                                                      [checked]="checked" 
+                                                      (change)="toogleAllocationData()" >
+                                                <label class="onoffswitch-label" for="myonoffswitch">
+                                                <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                    </label>
+                </div>
+                </span>&nbsp;
+                <span *ngIf="currentPlanYear==planYear" tourAnchor="allocation03" title="Click to allocate Grants">
+                                        <a (click)=allocateGrantsConformation(modalContent,modalContentWarningMessage)>
+                                            &nbsp;&nbsp;
+                                            <i class="fa fa-2x fa-check-square-o infocheck"></i>
+                                        </a>
+                                        <h6 class="infocheck">Allocate</h6>
+                                  </span>&nbsp;
+                <span tourAnchor="allocation04" title="Click to download Allocations" (click)="exportData()">
+                                      <a>
+                                          <i class="fa fa-2x fa-download infocheck ml-2"></i>
+                                      </a><h6 class="infocheck">Export</h6>
+                                  </span>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="input-group-append" tourAnchor="allocation05">
+            <span class="col-sm-1">
+                    Plan
+                </span>
+            <span class="col-sm-2" style="padding-left: 0%;
+                             margin-left: 0%;">
+                        <select id="plan" 
+                                (change)="getAllocationYearsForPlanHandler($event.target.value)" 
+                                class="form-control">
+                                <option value="select">-select-</option>
+                                <option *ngFor="let plan of plans" 
+                                         value="{{plan.year}}" 
+                                         [selected]="plan.isCurrentPlan==1">
+                                  {{plan.year}}
+                                </option>
+                        </select>
+                </span>
+            <span class="col-sm-2">
+                     Allocation Year
+                </span>
+            <span class="col-sm-2" style="padding-left: 0%;
+                              margin-left: 0%;">
+                                <select  class="form-control"  
+                                          (change)="getAllocationsForSelectedYear($event.target.value,modalAllocationYearContent)">
+                                        <option value="select" >-select-</option>
+                                            <option value="{{y}}" 
+                                                *ngFor="let y of years" 
+                                                [selected]="allocationYear==y">
+                                                {{y}}
+                                           </option>                 
+                                </select>
+                </span>
+                <span class="col-sm-2">
+                        Allocation Date
+                   </span>
+                   <span class="col-sm-2" style="padding-left: 0%;
+                   margin-left: 0%;">
+                         <select  class="form-control"  
+                         (change)="getAllocationByAllocationDate($event.target.value,planYear)">
+                       <option value="select" >-select-</option>
+                           <option value="{{date}}" 
+                               *ngFor="let date of allocationDates"
+                               [selected]="date == maxDate">
+                               {{date | date:'d-MMM-yy'}}
+                          </option>                 
+               </select>
+                   </span>
+                <!-- <span *ngFor="let date of allocationDates" title="Click to view Grants by date">
+                    <a class="d-none d-lg-inline-block" 
+                    (click)="getAllocationByAllocationDate(date,planYear)"
+                      style="display: inline; cursor: pointer;">
+                      <button type="button" class="btn btn-outline-primary btn-sm mr-1 btntestinfo"
+                      [class.btntestinfo]="date == maxDate">
+                        <span>{{date | date:'d-MMM-yy'}}</span>
+                        </button>
+        
+                        </a>&nbsp;
+                        </span> -->
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="input-group mb-2">
+    <span class="input-group-prepend">
+        <span class="input-group-text">
+            <i class="fa fa-search"></i>
+        </span>
+    </span>
+    <input class="form-control" type="text" placeholder="Type to filter the name column..." (keyup)="updateFilter($event)" />
+</div>
+
+<div class="loader-outer" id="preloader" *ngIf="showSpinner">
+    <div class="loader-container">
+        <div class="loader-inner">
+            <div class="loader">
+                <div id="top" class="mask">
+                    <div class="plane"></div>
+                </div>
+                <div id="middle" class="mask">
+                    <div class="plane"></div>
+                </div>
+                <div id="bottom" class="mask">
+                    <div class="plane"></div>
+                </div>
+                <p class="loader-text">&nbsp;<span>ESOP</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div [style.opacity]="showSpinnervalue">
+    <ngx-datatable #table class="material" [headerHeight]="70" [limit]="15" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="40" [rows]="rows" [loadingIndicator]="loadingIndicator" [selected]="selected" [selectionType]="'checkbox'" (select)='onSelect($event)'>
+
+        <ngx-datatable-column name="Employee Id" prop="employeeNumber">
+            <ng-template ngx-datatable-cell-template let-value="value">
+                <span>
+                    {{value}}
+                </span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Full Name" prop="fullName" [width]="280">
+            <ng-template ngx-datatable-cell-template let-value="value">
+                <span>
+                  {{value}}
+                </span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Band" prop="band">
+            <ng-template ngx-datatable-cell-template let-value="value">
+                <span>
+                  {{value}}
+                </span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Employee Status" prop="employeeStatus">
+            <ng-template ngx-datatable-cell-template let-value="value">
+                <span>
+                    <button class="btn btn-success btn-sm btn-rounded" 
+                            *ngIf="value=='Active'" style="font-size:0.8rem;cursor: none;"> 
+                          {{value}}
+                    </button>
+                    <button class="btn btn-danger btn-sm btn-rounded" 
+                            *ngIf="value=='Resigned'" style="font-size:0.8rem;cursor: none;"> 
+                            {{value}}
+                    </button>
+                </span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Grant Id" [width]="200">
+            <ng-template ngx-datatable-cell-template let-row="row">
+                <span>
+                  {{row.id}}
+                </span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Lockin" prop="locked">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                <span *ngIf="value == 'UNLOCKED'" title="Unlocked">  
+                          <i class="fa fa-2x fa-unlock" style="color: blue;"></i> 
+                  </span>
+                <span *ngIf="value == 'LOCKED'" title="Locked">
+                      <i class="fa fa-2x fa-lock" style="color: gray;"></i>
+                  </span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Grant">
+            <ng-template ngx-datatable-cell-template let-row="row">
+                <span>
+                  {{row.noOfGrants}}<span>@ {{row.grantPrice}}<i class="fa fa-dollar"></i></span>
+                </span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Allocation Year" prop="allocationYear">
+            <ng-template ngx-datatable-cell-template let-value="value">
+                <span>
+                  {{value}}
+                </span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Allocated" prop="allocated">
+            <ng-template ngx-datatable-cell-template let-value="value">
+                <span>
+                  {{value?value:0}}
+                </span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="To Be Allocated" prop="toBeAllocated">
+            <ng-template ngx-datatable-cell-template let-value="value">
+                <span>
+                    {{value?value:0}} 
+                  </span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Cancelled" prop="cancelled">
+            <ng-template ngx-datatable-cell-template let-value="value">
+                <span>
+                        {{value}}
+                    </span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Vested Date" prop="vestedDate">
+            <ng-template ngx-datatable-cell-template let-value="value">
+                <span>
+                      {{value?(value|date:'dd-MMM-yy'):'N/A'}}
+                  </span>
+            </ng-template>
+        </ngx-datatable-column>
+
+
+        <ngx-datatable-column name="Status" prop="status">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                <span *ngIf="value">
+              <button style="cursor: none;font-size: 0.6rem;" *ngIf="value == 'ALLOCATED'" type="button" class="btn btn-primary btn-sm">{{value}}</button>
+              <button style="cursor: none;font-size: 0.6rem;" *ngIf="value == 'PENDING'"type="button" class="btn btn-danger btn-sm">{{row.curYearAllocation}} {{value}}</button>
+            </span>
+                <span *ngIf="!value">
+                N/A
+            </span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" prop="status" [width]="50">
+            <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+                <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)" />
+            </ng-template>
+            <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+                <input *ngIf="value =='PENDING'" type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)" />
+
+
+
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Action" prop="id">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+
+                <span title="Edit Allocatons" style="cursor: pointer;" class="d-none d-sm-inline-block" data-toggle="modal" data-target="#warning-modal" (click)="editGrantsById(row.id)">
+                <a><i class="fa fa-1x fa-pencil" style="color: black;"></i></a>
+              </span>
+
+            </ng-template>
+        </ngx-datatable-column>
+
+    </ngx-datatable>
+</div>
+<br>
+
+<ng-template #modalContent>
+    <div class="modal-content">
+        <div class="modal-header top-navbar">
+            <h4 class="modal-title" id="modal-warning-label">
+                <i class="fa fa-check"></i> Allocations Allocated Sucessfuly
+            </h4>
+        </div>
+        <div class="modal-body">
+            <div class="col-lg-12" *ngIf="allocatedAllocations!=null">
+
+                <table class="table table-bordered">
+                    <tr>
+                        <td>Plan Year</td>
+                        <td>{{allocatedAllocations[0].planYear}}</td>
+                    </tr>
+                    <tr>
+                        <td>No. of Allocations allocated</td>
+                        <td>{{allocatedAllocations.length}}</td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary top-navbar" (click)="closeModal()">
+                      Close
+              </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #modalAllocationYearContent>
+    <div class="modal-content">
+        <div class="modal-header top-navbar">
+            <h4 class="modal-title" id="modal-warning-label">
+                <i class="fa fa-exclamation"></i>
+            </h4>
+        </div>
+        <div class="modal-body">
+            Selected Year is different From current Allocation year
+            <br>Would you like to proceed?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary top-navbar" (click)="allocationModalConformation(tempAllocationYear)">
+                        Yes
+                </button>
+            <button type="button" class="btn btn-primary top-navbar" (click)="no()">
+                        No
+                  </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #modalContentWarningMessage>
+    <div class="modal-content">
+        <div class="modal-header top-navbar">
+            <h4 class="modal-title" id="modal-warning-label">
+                <i class="fa fa-exclamation-circle"></i>
+            </h4>
+        </div>
+        <div class="modal-body">
+            You have selected all records for Allocation. Are you sure to proceed?
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default top-navbar" (click)="closeModal(modalContent)">
+                        Close
+                </button>
+            <button type="button" class="btn btn-default top-navbar" (click)="allocateGrants(modalContent)">
+                        Yes
+                </button>
+        </div>
+    </div>
+</ng-template>

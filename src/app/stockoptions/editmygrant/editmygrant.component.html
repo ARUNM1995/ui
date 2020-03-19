@@ -1,0 +1,343 @@
+<div class="row">
+        <div class="col-lg-12 mb-4">
+                <div class="breadcrumb">
+                        <div class="col-lg-3" *ngIf="grantData!=null">
+                                <h5 style="font-weight: bolder" class="mt-2" >
+                                        <i class="fa fa-gift"></i>&nbsp;
+                                        {{grantData.grant.grantDate | date :'dd-MMM-yy'}}
+                                </h5>
+                                <span>Grant Id: {{grantData.id}}</span>
+                        </div>
+                        <div class="top-rigth-icons ml-auto ">
+                                <div class="input-group-append">
+                                        <span class="mr-4">
+                                                <a class="float-right" routerLink="/stockoptions/mygrants" title="Back">
+                                                        <i class="fa fa-2x fa-arrow-circle-left infocheck"></i>
+                                                        <h6 class="infocheck">Back</h6>
+                                                </a>
+                                        </span>
+                                </div>
+                        </div>
+                </div>
+        </div>
+</div>
+<div *ngIf="grantData!=null">
+        <div class="row">
+                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5">
+                        <table class="table table-bordered">
+                                <tbody>
+                                        <tr>
+                                                <td colspan="2" class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+
+                                                                        Employee Information
+
+                                                                </a>
+                                                        </span>
+                                                </td>
+                                        </tr>
+                                        <tr>
+                                                <td class="label" style="background-color:  rgb(231, 227, 227);">
+                                                        Name</td>
+                                                <td>{{grantData.employee.fullName}}</td>
+                                        </tr>
+                                        <tr>
+                                                <td class="label" style="background-color:  rgb(231, 227, 227);">
+                                                        Band As on Grant</td>
+                                                <td>{{grantData.band}}</td>
+                                        </tr>
+                                        <tr>
+                                                <td class="label" style="background-color:  rgb(231, 227, 227);">
+                                                        Entity As on Grant</td>
+                                                <td>{{grantData.entity}}</td>
+                                        </tr>
+                                </tbody>
+                        </table>
+                </div>
+        </div>
+        <div class="row">
+                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5">
+                        <table class="table table-bordered">
+                                <tbody>
+                                        <tr>
+                                                <td colspan="2" class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+
+                                                                        Grant Details
+
+                                                                </a>
+                                                        </span>
+                                                </td>
+                                        </tr>
+                                        <tr>
+                                                <td class="label" style="background-color:  rgb(231, 227, 227);">
+                                                        Id</td>
+                                                <td>{{grantData.id}}</td>
+                                        </tr>
+                                        <tr>
+                                                <td class="label" style="background-color:  rgb(231, 227, 227);">
+                                                        Date</td>
+                                                <td>{{grantData.grant.grantDate | date :'d-MMM-yy'}}
+                                                </td>
+                                        </tr>
+                                        <tr>
+                                                <td class="label" style="background-color:  rgb(231, 227, 227);">
+                                                        Grants</td>
+                                                <td>{{grantData.noOfGrants}}</td>
+                                        </tr>
+                                        <tr>
+                                                <td class="label" style="background-color:  rgb(231, 227, 227);">
+                                                        Price</td>
+                                                <td>{{grantData.grantPrice}} <i class="fa fa-dollar"></i></td>
+                                        </tr>
+                                        <tr>
+                                                <td class="label" style="background-color:  rgb(231, 227, 227);">
+                                                        Plan</td>
+                                                <td>{{grantData.grant.plan.year}}</td>
+                                        </tr>
+
+                                </tbody>
+                        </table>
+                </div>
+        </div>
+        <div class="row">
+                <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10">
+                        <table class="table table-bordered">
+                                <tbody *ngIf="grantAllocationData">
+                                        <tr>
+                                                <td colspan="7" class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+
+                                                                        Allocation Schedule
+
+                                                                </a>
+                                                        </span>
+                                                </td>
+                                        </tr>
+                                        <tr>
+                                                <th class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+
+                                                                        Allocation Year
+
+                                                                </a>
+                                                        </span>
+                                                </th>
+                                                <th class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+
+                                                                        Planned / Allocated Date
+
+                                                                </a>
+                                                        </span>
+                                                </th>
+                                                <th class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+
+                                                                        Allocations
+
+                                                                </a>
+                                                        </span>
+                                                </th>
+                                                <th class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+
+                                                                        Status
+
+                                                                </a>
+                                                        </span>
+                                                </th>
+                                                <th class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+
+                                                                        Vested Options
+
+                                                                </a>
+                                                        </span>
+                                                </th>
+                                                <th class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+
+                                                                        Vested Date
+
+                                                                </a>
+                                                        </span>
+                                                </th>
+                                                <th class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+
+                                                                        Expiry Date
+
+                                                                </a>
+                                                        </span>
+                                                </th>
+                                        </tr>
+                                        <tr *ngFor="let data of grantAllocationData">
+                                                <td>{{data.allocationYear}}</td>
+                                                <td *ngIf="data.plannedAllocationDate!=null">{{data.plannedAllocationDate | date:'d-MMM-yy'}}
+                                                </td>
+                                                <td *ngIf="data.plannedAllocationDate==null">{{data.actualAllocationDate | date:'d-MMM-yy'}}
+                                                </td>
+                                                <td>{{data.allocationNumbers}}</td>
+                                                <td>
+
+                                                        <button style="cursor: none;" *ngIf="data.status == 'ALLOCATED'"
+                                                                type="button"
+                                                                class="btn btn-primary btn-sm mr-1">{{data.status}}</button>
+                                                        <button style="cursor: none;" *ngIf="data.status == 'PENDING'"
+                                                                type="button"
+                                                                class="btn btn-danger btn-sm mr-1">{{data.status}}</button>
+                                                </td>
+                                                <td> <span
+                                                                *ngIf="data.vestedDate!=null">{{(data.allocationNumbers)|roundoff}}</span>
+                                                </td>
+                                                <td>{{data.vestedDate |date:'d-MMM-yy' }}</td>
+                                                <td>{{data.expireyDate |date:'d-MMM-yy' }}</td>
+                                        </tr>
+
+
+                                </tbody>
+                        </table>
+                </div>
+        </div>
+        <div class="row">
+                <div class="col-xl-10 col-lg-10 col-md-10 col-sm-10">
+                        <table class="table table-bordered">
+                                <tbody *ngIf="grantAllocationData">
+                                        <!-- <tr>
+                                                <td colspan="6" class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+
+                                                                        Option & Exercise
+                                                                        summary
+
+                                                                </a>
+                                                        </span>
+                                                </td>
+                                        </tr> -->
+                                        <tr>
+                                                <th class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+                                                                        Rescind Options
+
+
+                                                                </a>
+                                                        </span>
+                                                </th>
+                                                <th class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+                                                                        Total Vested Options
+
+
+                                                                </a>
+                                                        </span>
+                                                </th>
+                                                <th class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+
+                                                                        Exercised Options
+
+                                                                </a>
+                                                        </span>
+                                                </th>
+                                                <th class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+
+                                                                        Available Options To
+                                                                        Exercise
+
+                                                                </a>
+                                                        </span>
+                                                </th>
+                                                <th class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+
+                                                                        Sold Options
+
+                                                                </a>
+                                                        </span>
+                                                </th>
+                                                <th class="menu-wrapper ps">
+                                                        <span class="card">
+                                                                <a align="center"
+                                                                        class="menu-item-link transition active-link"
+                                                                        style="cursor: none;">
+
+                                                                        Available Options To
+                                                                        Sell
+
+                                                                </a>
+                                                        </span>
+                                                </th>
+
+                                        </tr>
+                                        <tr>
+                                                <td>{{monitizationData.rescingOptions?monitizationData.rescingOptions:0}}
+                                                </td>
+                                                <td>{{monitizationData.vestedOptions?monitizationData.vestedOptions:0}}
+                                                </td>
+                                                <td>{{monitizationData.exercisedOptions?monitizationData.exercisedOptions:0}}
+                                                </td>
+                                                <td>{{monitizationData.vestedOptions - monitizationData.exercisedOptions-monitizationData.exerciseApprovalPending-monitizationData.rescingOptions}}
+                                                </td>
+                                                <td>{{monitizationData.soldOptions?monitizationData.soldOptions:0}}
+                                                </td>
+                                                <td>{{monitizationData.exercisedOptions-monitizationData.soldOptions}}
+                                                </td>
+
+                                        </tr>
+
+
+                                </tbody>
+                        </table>
+                </div>
+        </div>
+</div>

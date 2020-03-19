@@ -1,0 +1,315 @@
+<div class="row">
+  <div class="col-lg-12 mb-4">
+      <div class="breadcrumb">
+          <h4 style="font-weight: bolder" class="mt-2">
+            <i class="fa fa-newspaper-o"></i>&nbsp;
+            Reports / Plan : {{selectedPlan}}
+          </h4>
+          <div class="top-rigth-icons ml-auto" >
+              <div class="input-group-append">
+                <span class="mr-4">
+                    <div class="input-group-prepend dropleft infocheck">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-secondary 
+                              dropdown-toggle infocheckbgcolr" data-toggle="dropdown"
+                                type="button">
+                                {{selectedPlan}}
+                        </button>
+                        <div class="dropdown-menu" x-placement="right-start" style="position: absolute; 
+                            will-change: transform; 
+                            top: 0px; left: 0px; 
+                            transform: translate3d(95px, 0px, 0px);">
+                                <a class="dropdown-item" href="javascript:void(0);"
+                                        *ngFor="let plan of plans"
+                                        (click)="selectPlan(plan.year)">
+                                        {{plan.year}}
+                                </a>
+                        </div>
+                </div>
+                <h6 class="infocheck ml-4">Plan</h6>                          
+                </span>
+                <span (click)="exportData()"  tourAnchor="reports02" title="Download XL data" class="d-none d-sm-inline-block">
+                  <a>
+                      <i class="fa fa-2x fa-download infocheck ml-2"></i>
+                  </a><h6 class="infocheck">Export</h6>
+                </span>
+              </div>           
+          </div>
+      </div>
+  </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="input-group-append">
+          <div class="col">
+            <a title="Summary details" *ngIf="adminRole" style="display: inline; cursor: pointer;">
+              <button type="button" [class.btntestinfo]="summary" (click)="getEsopSummaryReport()"
+                class="btn  btn-outline-primary  btn-sm mr-1 btntestinfo">
+                <span>Summary</span>
+              </button>
+            </a>
+            <a title="Grants and Allocations" *ngIf="adminRole" style="display: inline; cursor: pointer;">
+              <button type="button" (click)="getEsopAllocationsReport()" [class.btntestinfo]=" grants_allocations"
+                class="btn  btn-outline-primary btn-sm mr-1 btntestinfo ">
+                <span>Grants Details</span>
+              </button>
+            </a>
+            <a title="User Grants and Allocatons" style="display: inline; cursor: pointer;">
+              <button [class.btntestinfo]="my_grants_allocations" (click)="getEsopAllocationsReportByEmployee()" type="button"
+                class="btn  btn-outline-primary btn-sm mr-1 btntestinfo">
+                <span>My Grant Details</span>
+              </button>
+            </a>
+          </div>
+      </div>
+    </div>
+</div>
+<br>
+<ngx-datatable *ngIf="esopSummaryReport!=null" #table class="material" [headerHeight]="70" [limit]="15"
+  [columnMode]="'force'" [footerHeight]="50" [rowHeight]="40" [rows]="rows" [loadingIndicator]="loadingIndicator"
+  [selected]="selected" [selectionType]="'checkbox'" (select)='onSelect($event)'>
+
+
+  <ngx-datatable-column name="Plan" prop="planYear">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span>
+        {{value}}
+      </span>
+
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Grant Year" prop="cycleYear">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span>
+        {{value}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Grant Date" prop="grantDate">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      {{value|date:'d-MMM-yy'}}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Grants" prop="noOfGrants">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span>
+        {{value}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Allocated" prop="allocated">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span>
+        {{value}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Allocations Pending" prop="allocationsPending">
+      <ng-template ngx-datatable-cell-template let-value="value">
+        <span>
+            {{value?value:0}}
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
+
+
+    <ngx-datatable-column name="Cancelled" prop="cancelled">
+        <ng-template ngx-datatable-cell-template let-value="value">
+          <span>
+              {{value?value:0}}
+          </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Rescend" prop="recend">
+          <ng-template ngx-datatable-cell-template let-value="value">
+            <span>
+                {{value?value:0}}
+            </span>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Vested Options" prop="vestedOptions">
+            <ng-template ngx-datatable-cell-template let-value="value">
+              <span>
+                  {{value?value:0}}
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Vested Options" prop="vestedOptions">
+              <ng-template ngx-datatable-cell-template let-value="value">
+                <span>
+                    {{value?value:0}}
+                </span>
+              </ng-template>
+            </ngx-datatable-column>
+
+  <ngx-datatable-column name="Sold Options" prop="soldOptions">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span>
+          {{value?value:0}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+
+</ngx-datatable>
+<ngx-datatable *ngIf="esopAllocationsReport!=null" #table class="material " [headerHeight]="70" [limit]="15"
+  [columnMode]="'force'" [footerHeight]="50" [rowHeight]="40" [rows]="rows1" [loadingIndicator]="loadingIndicator"
+  [selected]="selected" [selectionType]="'checkbox'" (select)='onSelect($event)'>
+
+  <ngx-datatable-column name="Plan" prop="planYear">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span [title]="value">
+        {{value}}
+      </span>
+
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Employee Number" prop="employeeNumber" *ngIf="!my_grants_allocations">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span [title]="value">
+        {{value}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Name" [width]="250" prop="fullName" *ngIf="!my_grants_allocations">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span [title]="value">
+        {{value}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Band" prop="band">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span [title]="value">
+        {{value}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Entity" prop="entity">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span [title]="value">
+        {{value}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Employee Status" prop="employeeStatus" *ngIf="!my_grants_allocations">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span [title]="value">
+        {{value}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+<!-- 
+  <ngx-datatable-column name="Current Band" prop="curBand">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span>
+        {{value}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+
+
+  <ngx-datatable-column name="Current Entity" prop="curEntity">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span>
+        {{value}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column> -->
+
+  <ngx-datatable-column name="Grant Id" [width]="200" prop="id">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span [title]="value">
+        {{value}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column  [width]="200" name="Grant Date" prop="grantDate">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span >
+        {{value|date:'d-MMM-yy'}}
+      </span>
+     
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Grants" prop="noOfGrants">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span [title]="value">
+        {{value}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Grants Price($)" prop="grantPrice">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span [title]="value">
+        {{value}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Allocated" prop="allocated">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span [title]="value">
+        {{value}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Vested Options" prop="vestedOptions">
+      <ng-template ngx-datatable-cell-template let-value="value">
+        <span>
+          {{value?value:0}}
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Exercised Options" prop="exercisedOptions">
+        <ng-template ngx-datatable-cell-template let-value="value">
+          <span>
+              {{value?value:0}}
+          </span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Sold Options" prop="soldOptions">
+          <ng-template ngx-datatable-cell-template let-value="value">
+            <span>
+                {{value?value:0}}
+            </span>
+          </ng-template>
+        </ngx-datatable-column>
+
+  <ngx-datatable-column name="Canceled" prop="canceled">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <span>
+        {{value}}
+      </span>
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column name="Rescend" prop="rescind">
+      <ng-template ngx-datatable-cell-template let-value="value">
+        <span>
+            {{value?value:0}}
+        </span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Rescend Remarks" prop="rescindRemark">
+        <ng-template ngx-datatable-cell-template let-value="value">
+          <span>
+              {{value?value:''}}
+          </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+</ngx-datatable>

@@ -1,0 +1,307 @@
+<!-- <nav class="navbar box-shadow app-header" 
+     [class.fixed-top]="settings.theme.navbarIsFixed" 
+     [class.logo-visible]="showInfoContent">
+        <div class="d-flex flex-column w-100">
+                <div id="info-content" 
+                     class="panel-collapse collapse">
+                    <a class="close" 
+                       data-toggle="collapse" 
+                       href="#info-content" 
+                       (click)="showInfoContent = !showInfoContent" 
+                       [class.show]="showInfoContent">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                    <div class="row align-items-center" *ngIf="employeeDetails!=null">
+                            <div class="col-md-5">
+                                <div class="d-flex justify-content-center align-items-center pt-md-0 pt-3 info">                               
+                                    <div class="d-flex flex-column pl-3">
+                                            <h5 class="mb-0">
+                                                    {{employeeDetails.fullName}} 
+                                                <i class="fa fa-check-circle fs-13 text-success ml-2"></i>
+                                            </h5>
+                                            <span>{{employeeDetails.grade}}</span>
+                                            <div class="pt-3"></div>                            
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7">           
+                                    <div class="col-md-7 left-border">
+                                        <div class="info">
+                                            <table class="table">
+                                                <thead>
+                                                <tr>
+                                                        <th>Employee No</th>
+                                                        <th>Band</th>
+                                                        <th>Mode of Delivery</th>
+                                                        <th>Program</th>
+                                                    
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>{{employeeDetails.employeeNumber}}</td>
+                                                        <td>{{employeeDetails.band}}</td>
+                                                        <td>{{employeeDetails.mod}}</td>
+                                                        <td>{{employeeDetails.program}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>                           
+                                    </div>
+                            </div>
+                    </div> 
+                </div>
+                <div class="d-flex justify-content-start align-items-center top-navbar">                  
+                    
+                    <a class="logo" routerLink="/" (click)="closeSubMenus()">
+                        <span class="ng">
+                                <img src="./assets/img/common/esop_logo.png" style="width: 100%;">
+                        </span>
+                    </a>
+                    <span class="navbar-text menu-icon transition ml-6 mr-6 open" [ngClass]="{'open': settings.theme.showMenu}"
+                        (click)="settings.theme.showMenu = !settings.theme.showMenu">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </span>
+                    <div class="top-rigth-icons ml-auto">                    
+                        <span title="GDPR guidelines" 
+                                class="d-none d-sm-inline-block" 
+                                id="blink" 
+                                style="margin-top: 3%;"
+                                tourAnchor="tourId5"> 
+                                <a  data-toggle="modal" data-target="#gdprguidelines-modal">
+                                    &nbsp;<i class="fa fa-2x fa-lock" ></i>
+                                </a>
+                                <h6 class="infocheck" style="font-size: 10px;">
+                                    GDPR
+                                </h6>
+                        </span> &nbsp;&nbsp; 
+
+                        <span title="Feedback" 
+                              class="d-none d-sm-inline-block" 
+                              tourAnchor="tourId6">
+                            <a (click)="check('feedbackview',$event)" >  
+                                <i aria-hidden="true" class="fa fa-3x fa-star-o"></i>
+                            </a>
+                        </span> &nbsp;&nbsp;
+                        <span title="ESOP tour" class="d-none d-sm-inline-block">
+                                <a (click)="startTour()"> 
+                                    <i aria-hidden="true" class="fa fa-3x fa-automobile"></i>
+                                </a>
+                        </span> &nbsp;&nbsp;
+                        <span title="Help" class="d-none d-sm-inline-block pl-2 pr-2" 
+                             tourAnchor="tourId7">
+                                <a href="./assets/quick_help/session/quick/ESOPTool.html" target="_blank"> 
+                                    <i aria-hidden="true" class="fa fa-3x fa-question-circle"></i>
+                                </a>
+                        </span> &nbsp;&nbsp;                       
+                        <span title="User profile" 
+                              class="d-none d-sm-inline-block pl-2 pr-2"  
+                              tourAnchor="tourId8" >                   
+                            <a id="info-content-icon" 
+                                data-toggle="collapse" 
+                                href="#info-content" 
+                                (click)="showInfoContent = !showInfoContent" 
+                                class="d-flex" [class.show]="showInfoContent">
+                                <i aria-hidden="true" class="fa fa-3x fa-user" [@showInfo]="showInfoContent"></i> 
+                            </a>        
+                        </span> &nbsp;&nbsp;
+                        <span title="Log out" class="pl-2 pr-2" >
+                                <a (click)="logOut()">
+                                    <i aria-hidden="true" class="fa fa-3x  fa-sign-out"></i>
+                                </a>
+                        </span>  &nbsp;&nbsp;                            
+                    </div> 
+                </div>
+        </div>
+</nav>  -->
+
+
+<nav class="navbar box-shadow app-header" [class.fixed-top]="settings.theme.navbarIsFixed" [class.logo-visible]="showInfoContent">
+    <div class="d-flex flex-column w-100">
+        <div id="info-content" class="panel-collapse collapse">
+            <a class="close" data-toggle="collapse" href="#info-content" (click)="showInfoContent = !showInfoContent" [class.show]="showInfoContent">
+                <span aria-hidden="true">&times;</span>
+            </a>
+            <div class="row align-items-center" *ngIf="employeeDetails!=null">
+                <div class="col-md-5">
+                    <div class="d-flex justify-content-center align-items-center pt-md-0 pt-3 info">
+                        <img src="./assets/img/common/esop_logo.png" class="rounded-circle user-img">
+                        <div class="d-flex flex-column pl-3">
+                            <h5 class="mb-0"> {{employeeDetails.fullName}} <i class="fa fa-check-circle fs-13 text-success ml-2"></i></h5>
+                            <span>{{employeeDetails.grade}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="row py-4">
+                        <div class="col-lg-10 col-sm-10 col-12 left-border">
+                            <div class="info w-480p mx-auto text-center">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Employee No</th>
+                                            <th>Band</th>
+                                            <th>Mode of Delivery</th>
+                                            <th>Program</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{{employeeDetails.employeeNumber}}</td>
+                                            <td>{{employeeDetails.band}}</td>
+                                            <td>{{employeeDetails.mod}}</td>
+                                            <td>{{employeeDetails.program}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- <div class="col-lg-5 col-sm-4 left-border d-none d-sm-block">
+                            <div class="info w-100p mx-auto">
+                                <div class="custom-control custom-checkbox mb-1">
+                                    <input type="checkbox" class="custom-control-input" id="checkboxNotifications" checked>
+                                    <label class="custom-control-label" for="checkboxNotifications">Notifications</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mb-1">
+                                    <input type="checkbox" class="custom-control-input" id="checkboxTasks" checked>
+                                    <label class="custom-control-label" for="checkboxTasks">Tasks</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mb-1">
+                                    <input type="checkbox" class="custom-control-input" id="checkboxEvents">
+                                    <label class="custom-control-label" for="checkboxEvents">Events</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mb-1">
+                                    <input type="checkbox" class="custom-control-input" id="checkboxDownloads" checked>
+                                    <label class="custom-control-label" for="checkboxDownloads">Downloads</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mb-1">
+                                    <input type="checkbox" class="custom-control-input" id="checkboxMessages" checked>
+                                    <label class="custom-control-label" for="checkboxMessages">Messages</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mb-1">
+                                    <input type="checkbox" class="custom-control-input" id="checkboxUpdates">
+                                    <label class="custom-control-label" for="checkboxUpdates">Updates</label>
+                                </div>
+                                <div class="custom-control custom-checkbox mb-1">
+                                    <input type="checkbox" class="custom-control-input" id="checkboxSettings" checked>
+                                    <label class="custom-control-label" for="checkboxSettings">Settings</label>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-start align-items-center top-navbar">
+
+            <a class="logo" routerLink="/" (click)="closeSubMenus()">
+                <!-- <span class="start">ESOP</span><span class="ng">NG</span> -->
+                <span class="ng">ESOP</span>
+            </a>
+
+            <span class="navbar-text menu-icon transition ml-4 mr-4 pl-4" [ngClass]="{'open': settings.theme.showMenu}" (click)="settings.theme.showMenu = !settings.theme.showMenu">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </span>
+
+            <!-- <div class="ml-2 mr-2 d-none d-sm-block">
+                 <a id="info-content-icon" data-toggle="collapse" href="#info-content" (click)="showInfoContent = !showInfoContent" class="d-flex" [class.show]="showInfoContent">
+                    <div [@showInfo]="showInfoContent" class="triangle"></div>
+                </a>
+            </div>  -->
+
+
+
+            <div class="top-rigth-icons ml-auto">
+                <span class="d-none d-sm-inline-block pl-2 pr-2" tourAnchor="aruntour">
+                    <a  data-toggle="modal" data-target="#gdprguidelines-modal">
+                        &nbsp;<i class="fa fa-1x fa-lock pl-2" ></i>
+                    </a>
+                    <h6 class="infocheck ml-1" style="font-size: 10px;">
+                        GDPR
+                    </h6>
+                </span>
+                <span class="d-none d-sm-inline-block pl-2 pr-2">
+                    <a (click)="check('feedbackview',$event)" >  
+                        <i aria-hidden="true" class="fa fa-2x fa-star-o"></i>
+                    </a>
+                </span>
+                <!-- <span class="d-none d-sm-inline-block pl-2 pr-2">
+                    <a (click)="startTour()"> 
+                        <i aria-hidden="true" class="fa fa-2x fa-automobile"></i>
+                    </a>
+                </span> -->
+                <span class="d-none d-sm-inline-block pl-2 pr-2">
+                    <a target="_blank" href="./assets/quick_help/esoptoolguide.pdf" target="_blank"> 
+                        <i aria-hidden="true" class="fa fa-2x fa-question-circle"></i>
+                    </a>
+                </span>
+
+                <span class="d-none d-sm-inline-block pl-2 pr-2">
+                    <a id="info-content-icon" 
+                    data-toggle="collapse" 
+                    href="#info-content" 
+                    (click)="showInfoContent = !showInfoContent" 
+                    class="d-flex" [class.show]="showInfoContent">
+                    <i aria-hidden="true" class="fa fa-2x fa-user" [@showInfo]="showInfoContent"></i> 
+                </a>     
+                </span>
+                <span class="pl-2 pr-2">
+                    <a (click)="logOut()">
+                        <i class="fa fa-2x fa-sign-out" aria-hidden="true"></i>
+                    </a>                   
+                </span>
+            </div>
+
+        </div>
+
+        <div class="horizontal-menu-outer" *ngIf="settings.theme.menu == 'horizontal'">
+            <app-horizontal-menu *ngIf="showHorizontalMenu" [menuItems]="menuItems"></app-horizontal-menu>
+            <app-vertical-menu *ngIf="!showHorizontalMenu" [menuItems]="menuItems"></app-vertical-menu>
+        </div>
+    </div>
+</nav>
+
+
+<div id="feedbackview">
+</div>
+
+<div class="modal fade" id="gdprguidelines-modal" tabindex="-1" role="dialog" aria-labelledby="modal-warning-label">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header top-navbar">
+                <h4 class="modal-title">
+                    <i class="fa fa-user"></i> GDPR Guidelines
+                </h4>
+            </div>
+            <div class="modal-body">
+                This tool/page contains personal data. You may have access to personal data of other individuals by virtue of your role at QuEST. Please read the <a target="_blank" href="https://intranet.quest-global.com/intranet/QuEST-Global-Net/Files/QuEST_Employee-Data-Privacy-Notice.aspx"><b>QuEST
+                                Data Privacy Notice</b></a> before using the EPMS. <br /> <br /> Please note the following important points.
+                <ol style="margin-left: 15px;">
+                    <li>You should have completed the compliance course on General Data Protection Regulation (GDPR) to access any data in this tool.</li>
+                    <li>Downloading/Printing/Storing any personal data of other individuals from the tool and/or sharing it through email should be avoided.</li>
+                    <li>Any data downloaded, printed, stored or shared outside this tool is uncontrolled. It should be deleted immediately after the intended purpose.</li>
+                    <li>You agree that you will only access relevant data, personal or otherwise, that is required in order to carry out your duties.</li>
+                    <li>Any data that you access in the course of your duties must be treated in the strictest of confidence and not disclosed to any person other than the intended recipient of the data.</li>
+                    <li>If another person approaches you to request access to personal or sensitive data to which you have access rights, then you must not disclose any information or grant access until you have the written approval from the Data Protection
+                        Representative of your region.</li>
+                    <li>Inappropriate access to or disclosure of any such information will be treated seriously and will be subject to formal action in accordance with the company disciplinary procedure.
+                    </li>
+                </ol>
+                If you have any concerns about the points above, please contact <a href="mailto:DataProtection_Quest@quest-global.com"><b>DataProtection_Quest@quest-global.com</b></a>
+                <br />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default top-navbar" data-dismiss="modal">
+                            Close
+                    </button>
+            </div>
+        </div>
+    </div>
+</div>

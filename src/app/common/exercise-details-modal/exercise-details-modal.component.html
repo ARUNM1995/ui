@@ -1,0 +1,41 @@
+<h6 class="alert alert-success top-navbar" style="background-color: #445963;color: white;"><i class="fa fa-bar-chart" style="font-weight: bolder"></i>&nbsp;
+  Exercised options details
+</h6>
+<mat-dialog-content class="mat-typography">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th >Grant Id</th>
+        <th >Grant Date</th>
+        <th >Grants</th>
+        <th>Avaliable options</th>
+        <th>Exercise Request</th>
+        <th>Sell Request</th>
+        <th>Request Date</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let exercise of exercisesForId">
+        <td >{{exercise.monitization.grantAssignment.id}}</td>
+        <td>{{exercise.monitization.grantAssignment.grant.grantDate|date:'dd-MMM-yy'}}</td>
+        <td >{{exercise.monitization.grantAssignment.noOfGrants}}</td>
+        <td>{{tempAvaliableOptions}}</td>
+        <td>{{exercise.exercisedOptions}}</td>
+        <td>{{exercise.soldOptions?exercise.soldOptions:0}}</td>
+        <td>{{exercise.exercisedDate|date:'dd-MMM-yy'}}</td>
+        <td>{{exercise.status?exercise.status:'PENDING'}}</td>
+        <td> <a (click)="cancelExerciseRequest(exercise)" style="cursor: pointer" *ngIf="exercise.approvedDate==null && exercise.status==null"><i class="fa a fa-remove" style="color: red;padding-left: 50%;"></i></a>
+            <span *ngIf="exercise.status=='REJECTED'">
+                {{exercise.remarks}}
+            </span>
+        </td>
+      </tr>
+    </tbody>
+</table> 
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close class="btn btn-sm btn-info float-right top-navbar" style="background-color: #445963;color: white;">Close</button>
+  
+</mat-dialog-actions>

@@ -1,0 +1,52 @@
+<h6 class="alert alert-success top-navbar" style="background-color: #445963;color: white;"><i class="fa fa-bar-chart" style="font-weight: bolder"></i>&nbsp;
+   Rescind Options of {{employeeName}} ({{employeeNumber}})
+</h6>
+<mat-dialog-content class="mat-typography">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Plan</th>
+        <th>Entity</th>
+        <th>Band</th>
+        <th>Grant Id</th>
+        <th>Grant Date</th>
+        <th>Allocation</th>
+        <th>Vested / Allocated Options</th>
+        <th>*Rescind</th>
+        <th>*Remarks</th>
+      </tr>
+    </thead>
+    <tbody >
+       <tr *ngFor="let rescindData of employeeRescindData">
+        <td >{{rescindData.planYear}}</td>
+        <td >{{rescindData.entity}}</td>
+        <td >{{rescindData.band}}</td>
+        <td >{{rescindData.grantAssignmentId}}</td>
+        <td >{{rescindData.grantDate|date:'dd-MMM-yy'}}</td>
+        <td >{{rescindData.allocated}}</td>
+        <!-- <td >{{rescindData.vestedOptions}}</td> -->
+        <td>
+          <span *ngIf="rescindData.exercisedOptions!=null"> {{(rescindData.vestedOptions - rescindData.exercisedOptions)|number:'1.1-1'}}</span>
+          <span *ngIf="rescindData.vestedOptions == null"> {{rescindData.allocated|number:'1.1-1'}}</span>
+          <span *ngIf="rescindData.vestedOptions != null && rescindData.exercisedOptions==null"> {{rescindData.vestedOptions|number:'1.1-1'}}</span>
+        </td>
+        <!-- <td ><textarea rows="1" cols="5" (blur)="addRescindOptions($event.target.value,rescindData.grantAssignmentId)" >{{rescindData.rescindOptions?rescindData.rescindOptions:0}}</textarea></td>     -->
+        <td>
+                <!-- <textarea  rows="1" cols="5" (blur)="addRescindOptions($event.target.value,rescindData.grantAssignmentId,rescindData.vestedOptions,rescindData.exercisedOptions)">{{rescindData.rescindOptions?rescindData.rescindOptions:0}}</textarea> -->
+                <textarea  rows="1" cols="5" (blur)="addRescindOptions($event.target.value,rescindData)">{{rescindData.rescindOptions?rescindData.rescindOptions:0}}</textarea>
+        </td>
+        <td>
+              <!-- <textarea  rows="1" cols="10"  (blur)="addRemarks($event.target.value,rescindData.grantAssignmentId)">{{rescindData.remarks}}</textarea> -->
+              <textarea  rows="1" cols="10"  (blur)="addRemarks($event.target.value,rescindData)">{{rescindData.remarks}}</textarea>
+        </td>  
+      </tr> 
+    </tbody>
+</table>
+</mat-dialog-content>
+<h6 *ngIf="remarksErrorMsg" style="color: darkred;" align="center">*Remarks cannot be empty</h6>
+<h6 *ngIf="errorMessage" style="color: darkred;" align="center">*Rescind Options cannot be more than vested options</h6>
+<h6 *ngIf="successMessage" style="color: goldenrod;" align="center">Data saved successfully</h6>
+<mat-dialog-actions align="end">
+    <button mat-button  class="btn btn-sm btn-info float-right top-navbar" style="background-color: #445963;color: white;" (click)="saveRescind()" *ngIf="!errorMessage">Save</button>   
+    <button mat-button mat-dialog-close class="btn btn-sm btn-info float-right top-navbar" style="background-color: #445963;color: white;">Close</button>   
+</mat-dialog-actions>

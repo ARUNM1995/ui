@@ -1,0 +1,207 @@
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 mb-4">
+        <div class="breadcrumb">
+            <h4 style="font-weight: bolder" class="mt-2">
+                <i class="fa fa-gift"></i>&nbsp; Plan:{{selectedPlan}} -Exercise
+            </h4>
+            <div class="top-rigth-icons ml-auto">
+                <div class="input-group-append">
+                    <span class="pl-2 pr-2">
+                        <div class="input-group-prepend dropleft infocheck">
+                            <button aria-expanded="false" aria-haspopup="true"
+                                class="btn btn-secondary dropdown-toggle infocheckbgcolr" data-toggle="dropdown"
+                                type="button">
+                                {{selectedPlan}}
+                            </button>
+                            <div class="dropdown-menu" x-placement="right-start"
+                                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(95px, 0px, 0px);">
+                                <a class="dropdown-item" href="javascript:void(0);" *ngFor="let plan of plans"
+                                    (click)="getSumOfAllocatedGrantsByPlan(plan.year)">{{plan.year}}</a>
+                            </div>
+                        </div>
+                        <h6 class="infocheck ml-4">Plan</h6>
+                    </span>
+                    <span class="pl-2 pr-2" title="Back">
+                        <a routerLink="/stockoptions/mygrants/">
+                            <i class="fa fa-2x fa-arrow-circle-left infocheck"></i>
+                        </a>
+                        <h6 class="infocheck">Back</h6>
+                    </span>&nbsp;&nbsp;&nbsp;
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div tourAnchor="vesting01">
+    <ngx-datatable #table class="material" [headerHeight]="90" [limit]="10" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="44" [rows]="rows" [loadingIndicator]="loadingIndicator" [selected]="selected" [selectionType]="'checkbox'">
+        <ngx-datatable-column name="Grant Id" [width]="200">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                <a> {{row.id}}</a>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Grant Date">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                {{row.grantDate|date:'dd-MMM-yy'}}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Grants">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                {{row.noOfGrants}}<span>@ {{row.grantPrice}}
+                    <i class="fa fa-dollar"></i></span>
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Allocations">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                {{row.allocated?row.allocated:0}}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Vested Options">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                {{row.vestedOptions?(row.vestedOptions|number:'1.1-1'):0 }}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Rescind Options">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                {{row.rescingOptions?row.rescingOptions:0}}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Exercised Options">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                {{row.exercisedOptions?row.exercisedOptions:0}}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Avaliable Options For Exercise">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                {{(row.vestedOptions-row.exercisedOptions-row.rescingOptions)|number:'1.1-1'}}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Sold Options">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                {{row.soldOptions?row.soldOptions:0}}
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Avaliable Options For Sell">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                <span>
+                   {{row.exercisedOptions - row.soldOptions}}
+                </span>
+
+            </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Pending For Approval" [width]="290">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                <button style="background-color: #737CA1;cursor: none;font-size: 0.6rem;margin-bottom: 0%;margin-top: 0%;" type="button" class="btn btn-primary btn-sm">
+                    <h6 style="margin-bottom: 0%;margin-top: 0%;font-size: 0.7rem;">
+                      {{row.exerciseApprovalPending?row.exerciseApprovalPending:0}}</h6>
+                    Exercise
+                  </button>
+                <button style="background-color:#414A6F;min-width: 44px;cursor: none;font-size: 0.6rem;margin-bottom: 0%;margin-top: 0%;" type="button" class="btn btn-primary btn-sm ml-1">
+                    <h6 style="margin-bottom: 0%;margin-top: 0%;font-size: 0.7rem;">
+                      {{row.soldApprovalPending?row.soldApprovalPending:0}}</h6>
+                    Sell
+                  </button>
+
+
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Exercise">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                <input class="inputValues" id="{{row.id+'exerciseOptions'}}" [disabled]="( (row.vestedOptions-row.exercisedOptions-row.rescingOptions) <= row.exerciseApprovalPending) || (row.exerciseApprovalPending !=null || row.soldApprovalPending!=null )" value=" "
+                    #exoptions name="exoptions" type="number">
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Sell">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                <input type="number" [disabled]="( row.exerciseApprovalPending !=null || row.soldApprovalPending!=null )" class="inputValues" id="{{row.id+'sellOptions'}}">
+            </ng-template>
+        </ngx-datatable-column>
+
+
+
+        <ngx-datatable-column name="Action">
+            <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                <a title="Submit" style="cursor: pointer;" (click)="save(row,montizationErroePopup,montizationSucessPopup,exerciseRequestPending)">
+                    <i class="  fa fa-send"></i>
+                </a>
+                <a title="view details" style="cursor: pointer;" (click)="getExerciseByGrantAssignmentId(row,exerciseDetails)">
+                    <i class="  fa fa-bullseye ml-2"></i>
+                </a>
+
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</div>
+
+<ng-template #montizationSucessPopup>
+    <div class="modal-body bg-white">
+        <div class="row">
+            <div class="col-12 vertical-tabs">
+
+                <h6 class="alert alert-success top-navbar">
+                    <i class="fa fa-check" style="font-weight: bolder"></i>&nbsp; Exercise Request successfull
+                </h6>
+                <table class="table">
+                    <tr>
+                        <td>Requested for exercise</td>
+                        <td>{{tempExercise}}</td>
+                    </tr>
+                    <tr>
+                        <td>Requested for sell</td>
+                        <td>{{tempSell}}</td>
+                    </tr>
+                </table>
+                <button class="btn btn-sm btn-info float-right top-navbar" (click)="closeModal()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #montizationErroePopup>
+    <div class="modal-body bg-white">
+        <div class="row">
+            <div class="col-12 vertical-tabs">
+
+                <h6 class="alert alert-success top-navbar">
+                    <i class="fa fa-warning" style="font-weight: bolder"></i>&nbsp;
+
+                </h6>
+                <h6>
+                    Exercise/Sell options should not be negative,zero, more than Avaliable options
+                </h6>
+                <button class="btn btn-sm btn-info float-right top-navbar" (click)="closeModal()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #exerciseRequestPending>
+    <div class="modal-body bg-white">
+        <div class="row">
+            <div class="col-12 vertical-tabs">
+
+                <h6 class="alert alert-success top-navbar">
+                    <i class="fa fa-warning" style="font-weight: bolder"></i>&nbsp; You cannot send requests,when submintted request is pending!
+                </h6>
+                <button class="btn btn-sm btn-info float-right top-navbar" (click)="closeModal()">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

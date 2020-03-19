@@ -1,0 +1,140 @@
+<div class="row">
+  <div class="col-lg-12 mb-4">
+      <div class="breadcrumb">  
+          <h4 style="font-weight: bolder" class="mt-2">
+            <i class="fa fa-credit-card-alt"></i>&nbsp;
+            Rescind Summary
+          </h4>                         
+          <div class="top-rigth-icons ml-auto" >
+            <div class="input-group-append">
+              <span class="mr-4">
+                                          <div class="input-group-prepend dropleft infocheck">
+                                                  <button aria-expanded="false" aria-haspopup="true" class="btn btn-secondary 
+                                                         dropdown-toggle infocheckbgcolr" data-toggle="dropdown"
+                                                          type="button">
+                                                          {{currentPlanYear}}
+                                                  </button>
+                                                  <div class="dropdown-menu" x-placement="right-start" style="position: absolute; 
+                                                      will-change: transform; 
+                                                      top: 0px; left: 0px; 
+                                                      transform: translate3d(95px, 0px, 0px);">
+                                                          <a class="dropdown-item" href="javascript:void(0);"
+                                                                  *ngFor="let plan of plans"
+                                                                  (click)="getRescindSummary(plan.year)">
+                                                                  {{plan.year}}
+                                                          </a>
+                                                  </div>
+                                          </div>
+                                          <h6 class="infocheck ml-4">Plan</h6>
+              </span>
+              <span (click)="exportData()"  tourAnchor="rescind02" title="Download XL Report" class="d-none d-sm-inline-block">
+                <a>
+                    <i class="fa fa-2x fa-download infocheck ml-2"></i>
+                </a><h6 class="infocheck">Export</h6>
+              </span>
+          </div>
+              
+          </div>
+      </div>
+  </div>
+</div>
+<div class="input-group mb-2">
+    <span class="input-group-prepend">
+      <span class="input-group-text">
+          <i class="fa fa-search"></i>
+      </span>
+    </span>
+    <input 
+      class="form-control" 
+      type="text" 
+      placeholder="Type to filter the name column..." 
+      (keyup)="updateFilter($event)"/>
+  </div>
+ <div class="row">
+  <div class="col-lg-12" tourAnchor="rescind03">
+
+ 
+ <ngx-datatable  
+  #table
+  class="material"
+  [headerHeight]="70"
+  [limit]="10"
+  [columnMode]="'force'"
+  [footerHeight]="50"
+  [rowHeight]="40"
+  [rows]="rows"
+  [loadingIndicator]="loadingIndicator"
+  [selected]="selected"
+  [selectionType]="'checkbox'"
+
+    >
+    <!-- (select)='onSelect($event)'   -->
+            <ngx-datatable-column name="Employee Number" >
+              <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                {{row.employeeNumber}}
+              </ng-template>
+            </ngx-datatable-column>
+
+            
+            <ngx-datatable-column name="Employee Name" [width]="240">
+                    <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                      {{row.fullName}}
+                    </ng-template>
+            </ngx-datatable-column>
+
+           <ngx-datatable-column name="Employee Status" >
+                    <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                      <button class="btn btn-success btn-sm btn-rounded" *ngIf="value=='Active'" style="min-width: 55px;font-size: 0.6rem;cursor: none;"> {{row.employeeStatus}}</button>
+                      <button class="btn btn-danger btn-sm btn-rounded" *ngIf="value=='Resigned'" style="min-width: 55px;font-size: 0.6rem;cursor: none;"> {{row.employeeStatus}}</button>
+                    </ng-template>
+            </ngx-datatable-column> 
+      
+            <ngx-datatable-column name="Plan" >
+              <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                {{row.planYear}}
+              </ng-template>
+            </ngx-datatable-column>
+
+
+          
+
+              <ngx-datatable-column name="Total Grants" >
+                <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                  {{row.totalGrants}}
+                </ng-template>
+             </ngx-datatable-column>
+
+              <ngx-datatable-column name="Total Allocation" >
+                <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                  {{row.totalAllocations}}
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Available Options" >
+                <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                 
+                  <span *ngIf="row.totalExercisedOptions!=null"> {{ (row.totalVestedOptions - row.totalExercisedOptions -row.totalRescindOptions)|number: '1.1-1'}}</span>
+                  <span *ngIf="row.totalVestedOptions == null"> {{(row.totalAllocations-row.totalRescindOptions)| number: '1.1-1'}}</span>
+                  <span *ngIf="row.totalVestedOptions != null && row.totalExercisedOptions==null"> {{(row.totalVestedOptions-row.totalRescindOptions)|number: '1.1-1'}}</span>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Rescind Options" >
+                <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                  {{row.totalRescindOptions?row.totalRescindOptions:0}}
+                </ng-template>
+              </ngx-datatable-column>
+
+               
+              <ngx-datatable-column name="Action" >
+                  <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+                  <a (click)="openRescindOptionsModalComponent(row.planYear,row.employeeNumber,row.fullName)" style="cursor: pointer;"><i class="fa fa-minus-square-o" style="color: red;"></i></a>
+                  </ng-template>
+                </ngx-datatable-column>
+
+              
+
+           
+</ngx-datatable> 
+</div>
+</div>

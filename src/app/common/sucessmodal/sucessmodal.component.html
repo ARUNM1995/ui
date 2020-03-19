@@ -1,0 +1,36 @@
+<h5 mat-dialog-title style="background-color: #445963;color: white;"><i class="fa fa-check" style="font-weight: bolder"></i>&nbsp;
+  Data Uploaded Sucessfully
+</h5>
+<mat-dialog-content class="mat-typography">
+    <div class="col-lg-12" >  
+      
+      <table class="table table-bordered" >
+        <tr>
+            <td>File Name</td>
+            <td>{{fileName}}</td>
+        </tr>
+        <tr>
+          <td>Plan</td>
+          <td>{{updatedGrantAssignment.plan}}</td>
+        </tr>
+        <tr>
+          <td>Grant Year</td>
+          <td>{{updatedGrantAssignment.grantYear}}</td>
+        </tr>
+        <tr>
+          <td>GrantDate</td>
+          <td>{{updatedGrantAssignment.grantDate | date:'d-MMM-yy'}}</td>
+        </tr>
+      
+         <tr>
+          <td>No Of Grants Uploaded</td>
+          <td>{{updatedGrantAssignment.noOfGrants}}</td>
+        </tr> 
+      </table>                     
+     
+  </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+     
+      <button mat-raised-button (click)="onCloseNo()" class="btn btn-primary top-navbar" style="background-color: #445963;color: white;">Close</button>
+    </mat-dialog-actions>
