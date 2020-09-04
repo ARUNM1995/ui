@@ -63,7 +63,7 @@
     "ngx-tour-core": "^4.0.1",
     "ngx-tour-md-menu": "^4.0.1",
     "ngx-tour-ngx-popper": "^4.0.1",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "popper.js": "1.14.3",
     "rxjs": "6.2.2",
     "rxjs-compat": "6.2.2",
